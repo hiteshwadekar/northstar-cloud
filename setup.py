@@ -1,12 +1,12 @@
 import setuptools
 
 setuptools.setup(
-    name="smart-detective-api",
+    name="northstar-cloud",
     version="0.0.1",
     author="Hitesh Wadekar",
-    author_email="hitesh.wadekar@gmail.com",
+    author_email="hitesh.wadekar@ibm.com",
 
-    description="A microservice for Smart detective witness api",
+    description="A microservice for northstar-cloud services.",
     long_description=open('README.md').read(),
 
     packages=setuptools.find_packages(),
@@ -14,7 +14,7 @@ setuptools.setup(
     install_requires=[],
     entry_points={
         'console_scripts':
-            ['smart-detective-api = detective_api.api.detective_api_rpc:serve']
+            ['northstar-cloud = northstar_cloud.api.detective_api_rpc:serve']
     },
 
     classifiers=[

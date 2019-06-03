@@ -1,6 +1,6 @@
 from collections import defaultdict
-from detective_api.common import logs as logging
-from detective_api.common import exceptions as dt_exception
+from northstar_cloud.common import logs as logging
+from northstar_cloud.common import exceptions as dt_exception
 
 LOG = logging.getLogger(__name__)
 
