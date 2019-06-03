@@ -1,6 +1,6 @@
-from detective_api.common import logs as logging
-from detective_api.common import utils as c_utils
-from detective_api.db.detective_graph import DetectiveGraph as dt_graph
+from northstar_cloud.common import logs as logging
+from northstar_cloud.common import utils as c_utils
+from northstar_cloud.db.detective_graph import DetectiveGraph as dt_graph
 
 
 LOG = logging.getLogger(__name__)

@@ -1,11 +1,11 @@
 import argparse
 import os
 
-from detective_api.common import logs as logging
-from detective_api.\
-    services.detective_api_service import DetectiveApiService \
+from northstar_cloud.common import logs as logging
+from northstar_cloud.\
+    services.northstar_cloud_service import DetectiveApiService \
     as dt_service
-from detective_api.common import utils as dt_utils
+from northstar_cloud.common import utils as dt_utils
 
 LOG = logging.getLogger(__name__)
 

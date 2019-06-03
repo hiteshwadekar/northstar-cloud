@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: smart-detective-api
+  name: northstar-cloud
 spec:
   replicas: 1
   strategy: {}
@@ -11,15 +11,15 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: smart-detective-api
+        app: northstar-cloud
     spec:
       containers:
-        - name: smart-detective-api
+        - name: northstar-cloud
           stdin: true
           tty: true
           args:
-            - smart-detective-api
-          image: smart-detective-api:latest
+            - northstar-cloud
+          image: northstar-cloud:latest
           ports:
             - name: api-pod-port
               containerPort: 50051
@@ -38,8 +38,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: smart-detective-api
-  name: smart-detective-api
+    app: northstar-cloud
+  name: northstar-cloud
 spec:
   type: ClusterIP
   clusterIP: None
@@ -48,5 +48,5 @@ spec:
       port: 50051
       targetPort: api-pod-port
   selector:
-    app: smart-detective-api
+    app: northstar-cloud
 ---

@@ -3,12 +3,12 @@ import time
 import os
 import grpc
 
-from detective_api.common import logs as logging
-from detective_api.api.proto import detective_pb2
-from detective_api.api.proto import detective_pb2_grpc
-from detective_api.services.\
-    detective_api_service import DetectiveApiService as dt_service
-from detective_api.common import utils as c_utils
+from northstar_cloud.common import logs as logging
+from northstar_cloud.api.proto import detective_pb2
+from northstar_cloud.api.proto import detective_pb2_grpc
+from northstar_cloud.services.\
+    northstar_cloud_service import DetectiveApiService as dt_service
+from northstar_cloud.common import utils as c_utils
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 

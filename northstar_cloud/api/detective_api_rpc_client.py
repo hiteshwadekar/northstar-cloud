@@ -3,10 +3,10 @@ import argparse
 import os
 import grpc
 
-from detective_api.common import logs as logging
-from detective_api.api.proto import detective_pb2_grpc
-from detective_api.api.proto import detective_pb2
-from detective_api.common import utils as dt_utils
+from northstar_cloud.common import logs as logging
+from northstar_cloud.api.proto import detective_pb2_grpc
+from northstar_cloud.api.proto import detective_pb2
+from northstar_cloud.common import utils as dt_utils
 
 
 LOG = logging.getLogger(__name__)

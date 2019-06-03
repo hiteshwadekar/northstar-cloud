@@ -1,8 +1,8 @@
 import os
-from detective_api.tests import base
-from detective_api.services import detective_api_service \
+from northstar_cloud.tests import base
+from northstar_cloud.services import northstar_cloud_service \
     as dt_api_service
-from detective_api.common import utils as c_utils
+from northstar_cloud.common import utils as c_utils
 
 DEFAULT_LOGGING_FILE_NAME = "logging.ini"
 ROOT_DIR = os.path.abspath(os.curdir)
