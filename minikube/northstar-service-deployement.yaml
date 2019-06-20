@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: detective-api-config
+            name: northstar-service-config
 ---
 apiVersion: v1
 kind: Service

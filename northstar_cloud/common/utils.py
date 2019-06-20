@@ -36,10 +36,10 @@ def read_json_file(input_file, LOG=None):
                 return json.load(infile)
         except FileNotFoundError:
             if LOG:
-                LOG.error("detective-api: "
+                LOG.error("northstar-cloud: "
                           "File not found at : %s " % input_file)
             else:
-                print("detective-api: "
+                print("northstar-cloud: "
                       "File not found at : %s " % (input_file))
             sys.exit(0)
     return []

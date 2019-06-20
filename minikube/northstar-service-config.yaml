@@ -2,11 +2,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: detective-api-config
+  name: northstar-service-config
   namespace: default
 data:
   config: |
     {
       "bind" : "[::]:50051",
       "default_local_address" : "localhost:50051"
+      "db_user": "",
+      "db_pass": "",
+      "db_host" : "mongodb",
+      "db_name" : "northstart-db",
+      "db_type" : "nosql"
     }

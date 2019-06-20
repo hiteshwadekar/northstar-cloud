@@ -1,4 +1,0 @@
- {
-   "bind" : "[::]:50051",
-   "default_local_address" : "localhost:50051"
- }
