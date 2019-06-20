@@ -6,3 +6,7 @@ testtools
 pytest
 setuptools
 pbr>=2.0.0
+pymongo>=3.7.1
+simple-crypt==4.1.7
+PyYAML==3.13
+mongoengine==0.18.0
