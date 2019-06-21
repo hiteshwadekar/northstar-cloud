@@ -8,9 +8,29 @@ service NorthStarService {
     // User activity
     rpc GetUserRescuePoints(GetUserRescuePointsRequest) returns (GetUserRescuePointsReply);
     rpc AddUser(AddUserRequest) returns (AddUserReply);
+    rpc GetUser(GetUserRequest) returns (GetUserReply);
     rpc UpdateUser(AddUserRequest) returns (AddUserReply);
     rpc DeleteUser(AddUserRequest) returns (AddUserReply);
+    rpc UploadImage(UploadImageRequest) returns (UploadImageReply);
+    rpc GetImage(GetImageRequest) returns (GetImageReply);
+}
 
+enum FileType {
+    UNKNOWN = 0;
+    JPEG = 1;
+    PNG = 2;
+}
+
+message UploadImageRequest {
+    string image_id = 1;
+    string image_name = 2;
+    FileType image_format = 3;
+    bytes image = 4;
+    User user = 5;
+}
+
+message UploadImageReply{
+    bool success = 1;
 }
 
 message LatLng {
@@ -51,10 +71,33 @@ message AddUserReply {
     bool success = 1;
 }
 
+message GetUserRequest {
+    string user_id = 1;
+    string user_name = 2;
+    string app_id = 3;
+}
+
+message GetUserReply {
+    User user = 1;
+}
+
 message GetUserRescuePointsRequest {
     User user = 1;
 }
 
 message GetUserRescuePointsReply {
     repeated LatLng rescue_locations = 1;
+}
+
+message GetImageRequest {
+    string image_id = 1;
+    string image_name = 2;
+}
+
+message GetImageReply {
+    string image_id = 1;
+    string image_name = 2;
+    FileType image_format = 3;
+    bytes image = 4;
+    User user = 5;
 }

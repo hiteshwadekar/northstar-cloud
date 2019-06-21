@@ -1,6 +1,6 @@
 # northstar-cloud
 
-A microservice for providing detective decision over witness's input.
+A microservice for providing NorthStar cloud operations.
 
 ### Design
 Requirements
@@ -31,79 +31,88 @@ To test everything OK, run tox (automation testing library).
 tox -epy36
 ```
 
-detective-api for witness event decision from cli,
+add user into northstar-cloud from cli,
 ``` shell
-python northstar_cloud/cli/detective_api_cli.py examples/example1.json
+python northstar_cloud/clients/northstart_service.py examples/sample-user.json
 
-detective-api: OUTPUT
-detective-api: Witness events given input     : [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']] 
-detective-api: Witness events prediction      : WITNESS_DECISION_MERGE_ALL_POSSIBLE 
-detective-api: Witness events predicted list  : [['fight', 'gunshot', 'falling', 'fleeing']] 
+2019-06-20 15:39:31,373 - __main__ - INFO - northstar-service-client: Request :user {
+  user_name: "help.me"
+  first_name: "acb"
+  last_name: "xyz"
+  phone_number: "4089779890"
+  home_address: "IBM Silicon valley"
+  email_address: "abc@xyz.com"
+  office_address: "IBM Silicon valley"
+  app_id: "app_id_1"
+  app_type: "iPhone"
+  current_location {
+    latitude: 37.121
+    longitude: -121.5655
+  }
+  health_info {
+    need_medical_support: true
+  }
+}
 
+2019-06-20 15:39:31,697 - __main__ - INFO - northstar-service-client: Response :success: true
 ```
-
-detective-api for witness event decision from gRPC API,
 
 Run server in one terminal,
 ``` shell
-python northstar_cloud/api/detective_api_rpc.py
+python northstar_cloud/cli/northstar_cloud_start.py 
 
-2019-04-29 20:44:36,151 - __main__ - INFO - detective-api: service stating...
-2019-04-29 20:44:36,154 - __main__ - INFO - detective-api: is runnnig at ... localhost:50051
+2019-06-20 15:39:20,074 - __main__ - INFO - northstar-cloud: service stating...
+2019-06-20 15:39:20,076 - __main__ - INFO - northstar-cloud: is runnnig at ... localhost:50051
 ```
 
 Run client in other terminal,
 ``` shell
-python northstar_cloud/api/detective_api_rpc_client.py examples/example1.json 
+python northstar_cloud/clients/northstart_service.py examples/sample-user.json
 
-2019-04-29 20:45:39,309 - __main__ - INFO - detective-api-client: Request :witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "fleeing"
+2019-06-20 15:39:31,373 - __main__ - INFO - northstar-service-client: Request :user {
+  user_name: "help.me"
+  first_name: "acb"
+  last_name: "xyz"
+  phone_number: "4089779890"
+  home_address: "IBM Silicon valley"
+  email_address: "abc@xyz.com"
+  office_address: "IBM Silicon valley"
+  app_id: "app_id_1"
+  app_type: "iPhone"
+  current_location {
+    latitude: 37.121
+    longitude: -121.5655
+  }
+  health_info {
+    need_medical_support: true
+  }
 }
-witness_events {
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
 
-2019-04-29 20:45:39,316 - __main__ - INFO - detective-api-client: Response :decision: WITNESS_DECISION_MERGE_ALL_POSSIBLE
-witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
-
-
-detective-api: OUTPUT
-detective-api: Witness events given input : [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']] 
-detective-api: Witness events prediction      : WITNESS_DECISION_MERGE_ALL_POSSIBLE 
-detective-api: Witness events predicted list  : [['fight', 'gunshot', 'falling', 'fleeing']] 
+2019-06-20 15:39:31,697 - __main__ - INFO - northstar-service-client: Response :success: true
 ```
 
 
-### Building and Running smart-detective-api in Docker
+### Building and Running northstar-cloud in Docker
 
 Build docker image.
 
 Run commands from ROOT directory (smart-detective-api)
 ``` shell
-docker build -t smart-detective-api . 
+docker build -t northstar-cloud . 
 ```
 
-Run smart-detective-api's docker container and test APIs 
+Run northstar-cloud's docker container and test APIs 
 
 ``` shell
 docker images
 REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE
-smart-detective-api                               latest              642ac58bed81        8 hours ago         1.21GB
+northstar-cloud                                latest              642ac58bed81        8 hours ago         1.21GB
 
-docker run -d -it --name detective-api smart-detective-api:latest
+docker run -d -it --name northstar-cloud northstar-cloud:latest
 
 docker ps
 CONTAINER ID        IMAGE                        COMMAND             CREATED             STATUS              PORTS               NAMES
-fc9dbd868e87        smart-detective-api:latest   "python3"           4 seconds ago       Up 3 seconds                            detective-api
+fc9dbd868e87        northstar-cloud:latest   "python3"           4 seconds ago       Up 3 seconds                            northstar-cloud
 
 docker exec -it fc9dbd868e87 bash
 
