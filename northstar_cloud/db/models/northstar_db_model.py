@@ -1,7 +1,6 @@
 import datetime
 from mongoengine import *
 
-
 class LatLang(Document):
     lat = DecimalField(required=True)
     lang = DecimalField(required=True)
@@ -34,3 +33,11 @@ class User(Document):
     created_at = DateTimeField(default=datetime.datetime.now)
 
     meta = {'collection': 'users', 'indexes': ['email_address', 'user_name', 'app_id']}
+
+
+class Images(Document):
+    user = ReferenceField(User, required=True)
+    image_encode = BinaryField(required=True)
+    image_id = StringField(required=True)
+    image_name = StringField(required=True, unique=True)
+    image_type = StringField(required=True)

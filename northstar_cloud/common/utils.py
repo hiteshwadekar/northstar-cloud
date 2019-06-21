@@ -2,12 +2,32 @@ import json
 import sys
 from enum import Enum
 
+from northstar_cloud.api import northstar_pb2
 
-class PossibleEvents(Enum):
-    WITNESS_DECISION_MERGE_ALL_POSSIBLE = 1
-    WITNESS_DECISION_PARTIAL_MERGE_POSSIBLE = 2
-    WITNESS_DECISION_NO_MERGE_POSSIBLE = 3
-    WITNESS_DECISION_CANT_DECIDE = 4
+class FileType(Enum):
+    UNKNOWN = 0
+    JPEG = 1
+    PNG = 2
+
+
+def get_file_type_name(file_type):
+    if northstar_pb2.UNKNOWN:
+        return FileType.UNKNOWN.name
+
+    if northstar_pb2.JPEG:
+        return FileType.JPEG.name
+
+    if northstar_pb2.PNG:
+        return FileType.PNG.name
+
+
+def get_file_type_pb2(file_type_name):
+    file_type_dict = {
+        FileType.JPEG.name: northstar_pb2.JPEG,
+        FileType.PNG.name: northstar_pb2.PNG,
+        FileType.UNKNOWN.name: northstar_pb2.UNKNOWN
+    }
+    return file_type_dict.get(file_type_name, None)
 
 
 def get_max_length_list(wt_paths):
