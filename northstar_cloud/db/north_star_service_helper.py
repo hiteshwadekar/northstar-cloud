@@ -131,3 +131,19 @@ class NorthStarService(object):
         except Exception as e:
             LOG.exception("get_user: failed to get user %s", e)
         return user
+
+    def get_images_to_scan(self):
+        images = None
+        try:
+            images = ns_model.Images.objects(recognition_flag=False)
+        except Exception as e:
+            LOG.exception("get_images_to_scan: failed to get images %s", e)
+        return images
+
+    def update_image(self, image, is_wild_fire=False, recognition_flag=False):
+        if image:
+            try:
+                images = image.update(recognition_flag=recognition_flag, is_wild_fire=is_wild_fire)
+            except Exception as e:
+                LOG.exception("update_image: failed to update %s", e)
+

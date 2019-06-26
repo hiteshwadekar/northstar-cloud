@@ -10,3 +10,6 @@ pymongo>=3.7.1
 simple-crypt==4.1.7
 PyYAML==3.13
 mongoengine==0.18.0
+ibm-watson>=3.0.4
+schedule>=0.5.0
+requests>=2.21.0

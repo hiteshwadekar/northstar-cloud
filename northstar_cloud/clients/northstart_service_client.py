@@ -41,15 +41,6 @@ class NorthStar(object):
         if self.channel:
             self.channel.close()
 
-def prepare_add_user(app_id='test1', app_type='iOS'):
-    add_user_req = northstar_pb2.AddUserRequest()
-
-    for each_item in witness_list:
-        req_witness.witness_events.extend(
-            [detective_pb2.WitnessEvents(name=each_item)]
-        )
-    return req_witness
-
 
 def read_config():
     config = {}

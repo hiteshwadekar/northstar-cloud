@@ -41,3 +41,6 @@ class Images(Document):
     image_id = StringField(required=True)
     image_name = StringField(required=True, unique=True)
     image_type = StringField(required=True)
+    created_at = DateTimeField(default=datetime.datetime.now)
+    is_wild_fire = BooleanField(default=False)
+    recognition_flag = BooleanField(default=False)

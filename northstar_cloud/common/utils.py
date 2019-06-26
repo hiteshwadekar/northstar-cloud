@@ -9,6 +9,11 @@ class FileType(Enum):
     JPEG = 1
     PNG = 2
 
+class Fire(Enum):
+    NO = 0
+    FIRE = 1
+    CANT_SAY = 2
+
 
 def get_file_type_name(file_type):
     if northstar_pb2.UNKNOWN:
@@ -65,37 +70,43 @@ def read_json_file(input_file, LOG=None):
     return []
 
 
-def count_no_items_witness_list(original_list=[]):
-    count = 0
-    for each_list in original_list:
-        for _ in each_list:
-            count += 1
-    return count
+def calculate_diff_between_long_latitudes():
+    pass
 
 
-def verify_witness_data_list_string_format(witness_event_list, LOG=None):
 
-    if not witness_event_list or len(witness_event_list) == 0:
-        LOG.error(
-            "detective-api: Provided witness list is empty : %s "
-            % witness_event_list)
-        sys.exit(0)
 
-    if type(witness_event_list) is not list:
-        LOG.error("detective-api: Provided witness "
-                  "list is WRONG format, "
-                  "it should be 'LIST' : %s " % witness_event_list)
-        sys.exit(0)
+'''
+Sample output from watson recognization service.
+{
+  "images": [
+    {
+      "classifiers": [
+        {
+          "classifier_id": "DefaultCustomModel_2080973559",
+          "name": "Default Custom Model",
+          "classes": [
+            {
+              "class": "wildfire",
+              "score": 0.767
+            }
+          ]
+        }
+      ],
+      "image": "fire_burned.jpg"
+    }
+  ],
+  "images_processed": 1,
+  "custom_classes": 2
+}
+'''
 
-    for item in witness_event_list:
-        if type(item) is not list:
-            LOG.error("detective-api: Provided witness "
-                      "sub-list is WRONG format, "
-                      "it should be 'LIST' : %s " % witness_event_list)
-            sys.exit(0)
-
-        for each_event in item:
-            if not isinstance(each_event, str):
-                LOG.error("detective-api: Provided witness events "
-                          "should be 'STRING' : %s " % witness_event_list)
-                sys.exit(0)
+def get_classification_for_image(result, image_name):
+    if result:
+        if result['images_processed'] == 1:
+            if image_name == result['images'][0]['image']:
+                for out in result['images'][0]['classifiers']:
+                    for item in out['classes']:
+                        if item['class'] == 'wildfire':
+                            return Fire.FIRE
+    return Fire.NO
