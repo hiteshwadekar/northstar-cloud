@@ -9,9 +9,13 @@ data:
     {
       "bind" : "[::]:50051",
       "default_local_address" : "localhost:50051"
-      "db_user": "",
-      "db_pass": "",
-      "db_host" : "mongodb",
-      "db_name" : "northstart-db",
-      "db_type" : "nosql"
+      "db": "mongo",
+      "db_name": "northcloud",
+      "db_host": "localhost",
+      "db_port":"27017",
+      "db_type" : "nosql",
+      "iam_vr_apikey": "F4CdHU-gwe-uqeRAdxtYUEKcuYY_wVu03vRvFCuoX4le",
+      "iam_vr_version": "2018-03-19",
+      "iam_classifier_ids": "DefaultCustomModel_2080973559",
+      "image_scan_interval": 10
     }

@@ -1,6 +1,9 @@
+import base64
+
 from northstar_cloud.common import logs as logging
 from northstar_cloud.api import northstar_pb2_grpc, northstar_pb2
 from northstar_cloud.db import north_star_service_helper as ns_helper
+from northstar_cloud.services import northstar_watson_services
 
 from northstar_cloud.common import utils as c_utils
 
@@ -76,6 +79,8 @@ class NorthStarServicer(
 
     def __init__(self):
         self.ns_service = ns_helper.NorthStarService()
+        self.ns_analytics = northstar_watson_services.AnalyticsHelper()\
+            .get_analytics_instance()
 
     def GetRescuePoints(self, request, context):
         LOG.info("northstar_service:GetRescuePoints "
@@ -158,7 +163,6 @@ class NorthStarServicer(
         LOG.info("northstar_service:UploadImage for "
                  "User: %s image_name %s",
                  request.user, request.image_name)
-
         user_id = None
         user_name = None
 
@@ -175,7 +179,6 @@ class NorthStarServicer(
             user_name=user_name,
             user_id=user_id
         )
-
         return northstar_pb2.UploadImageReply(success=success)
 
     def _reply_image(self, image):
@@ -192,6 +195,15 @@ class NorthStarServicer(
             return image_reply
         return northstar_pb2.GetImageReply()
 
+
+    def _predict_fire(self, image):
+        LOG.info("_predict_fire: calling IBM analytics")
+        classes = self.ns_analytics.predict_fire(
+            images_filename=image.image_name,
+            image_bytecode=base64.decodebytes(image.image_encode))
+        return classes
+
+
     def GetImage(self, request, context):
         LOG.info("northstar_service:GetImage for "
                  "image_id: %s image_name %s",
@@ -204,4 +216,5 @@ class NorthStarServicer(
         if request.image_name:
             image_name = request.image_name
         image = self.ns_service.get_image(image_id=image_id, image_name=image_name)
+        self._predict_fire(image)
         return self._reply_image(image)
