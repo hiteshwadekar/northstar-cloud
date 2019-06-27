@@ -4,6 +4,7 @@ from northstar_cloud.common import logs as logging
 from northstar_cloud.api import northstar_pb2_grpc, northstar_pb2
 from northstar_cloud.db import north_star_service_helper as ns_helper
 from northstar_cloud.services import northstar_watson_services
+from northstar_cloud.common import exceptions as ns_exceptions
 
 from northstar_cloud.common import utils as c_utils
 
@@ -15,6 +16,11 @@ class NorthStarServicer(
 ):
     """Provides methods that implement functionality
     of northstar service cloud server."""
+
+    def __init__(self):
+        self.ns_service = ns_helper.NorthStarService()
+        self.ns_analytics = northstar_watson_services.AnalyticsHelper()\
+            .get_analytics_instance()
 
     def _validate_conv_grpc_user_req_to_dict(self, user_request):
         user_dict = {
@@ -76,11 +82,6 @@ class NorthStarServicer(
                 user_request.health_info.need_medical_support
 
         return user_dict
-
-    def __init__(self):
-        self.ns_service = ns_helper.NorthStarService()
-        self.ns_analytics = northstar_watson_services.AnalyticsHelper()\
-            .get_analytics_instance()
 
     def GetRescuePoints(self, request, context):
         LOG.info("northstar_service:GetRescuePoints "
@@ -215,6 +216,10 @@ class NorthStarServicer(
 
         if request.image_name:
             image_name = request.image_name
+
+        if not image_id or not image_name:
+            raise ns_exceptions.ImageNameNotProvided()
+
         image = self.ns_service.get_image(image_id=image_id, image_name=image_name)
         self._predict_fire(image)
         return self._reply_image(image)

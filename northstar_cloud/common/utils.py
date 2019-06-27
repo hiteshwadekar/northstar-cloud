@@ -1,6 +1,7 @@
 import json
 import sys
 from enum import Enum
+from math import radians, cos, sin, asin, sqrt
 
 from northstar_cloud.api import northstar_pb2
 
@@ -101,7 +102,16 @@ Sample output from watson recognization service.
 }
 '''
 
+'''
+classes = {'images': [{'classifiers': [{'classifier_id': 'DefaultCustomModel_2080973559', 'name': 
+'Default Custom Model', 'classes': [{'class': 'wildfire', 'score': 0.767}]}], 'image': 'fire_burned.jpg'}], 'images_processed': 1, 'custom_classes': 2}
+'''
+
+
 def get_classification_for_image(result, image_name):
+    """
+    Parsing the classification output
+    """
     if result:
         if result['images_processed'] == 1:
             if image_name == result['images'][0]['image']:
@@ -110,3 +120,20 @@ def get_classification_for_image(result, image_name):
                         if item['class'] == 'wildfire':
                             return Fire.FIRE
     return Fire.NO
+
+
+def get_distqance_bet_two_points_using_haversine(lat1, lon1, lat2, lon2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 3956 # Radius of earth in miles. Use 6371 for kilometers
+    return c * r

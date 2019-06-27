@@ -8,5 +8,6 @@
     "iam_vr_apikey": "F4CdHU-gwe-uqeRAdxtYUEKcuYY_wVu03vRvFCuoX4le",
     "iam_vr_version": "2018-03-19",
     "iam_classifier_ids": "DefaultCustomModel_2080973559",
-    "image_scan_interval": 10
+    "image_scan_interval": 10,
+    "users_fire_range": 10
  }

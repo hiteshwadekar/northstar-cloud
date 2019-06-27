@@ -15,5 +15,5 @@ class TopologicalSortKeyError(BaseException):
     template = "error:Unable to find vertex :%(vertex_key)s"
 
 
-class DetectiveAPIUtilsFileNotFound(BaseException):
-    template = "error:File not found :%(file_name)s"
+class ImageNameNotProvided(BaseException):
+    template = "error:request do not have image name or image id"

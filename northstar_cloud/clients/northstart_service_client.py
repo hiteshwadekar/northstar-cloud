@@ -42,7 +42,7 @@ class NorthStar(object):
             self.channel.close()
 
 
-def read_config():
+def read_config(log_file_path):
     config = {}
     config = c_utils.read_json_file(log_file_path)
     global DEFAULT_BIND
@@ -63,18 +63,19 @@ def prep_user_request(user_info_dict):
     if user_info_dict['need_medical_emegency']:
         health_info_req = northstar_pb2.HealthInfo(need_medical_support=True)
 
-    user = northstar_pb2.User(user_name=user_info_dict['user_name'],
-                                  first_name=user_info_dict['first_name'],
-                                  last_name=user_info_dict['last_name'],
-                                  phone_number=user_info_dict['phone_number'],
-                                  home_address=user_info_dict['home_address'],
-                                  email_address=user_info_dict['email_address'],
-                                  office_address=user_info_dict['office_address'],
-                                  app_id=user_info_dict['app_id'],
-                                  app_type=user_info_dict['app_type'],
-                                  current_location=lat_lan_req,
-                                  health_info=health_info_req
-                                  )
+    user = northstar_pb2.User(
+        user_name=user_info_dict['user_name'],
+        first_name=user_info_dict['first_name'],
+        last_name=user_info_dict['last_name'],
+        phone_number=user_info_dict['phone_number'],
+        home_address=user_info_dict['home_address'],
+        email_address=user_info_dict['email_address'],
+        office_address=user_info_dict['office_address'],
+        app_id=user_info_dict['app_id'],
+        app_type=user_info_dict['app_type'],
+        current_location=lat_lan_req,
+        health_info=health_info_req
+    )
     user_req = northstar_pb2.AddUserRequest(user=user)
     return user_req
 
@@ -160,25 +161,25 @@ def get_program_args():
         description='NorthStar cloud tools.'
     )
     parser.add_argument(
-        '-user_info_file',
+        '-create_user_json',
         action='store',
         help='Path to user information json format file.',
         default=False
     )
     parser.add_argument(
-        '-get_user_info_file',
+        '-get_user_json',
         action='store',
         help='Path to get user information json format file.',
         default=False
     )
     parser.add_argument(
-        '-upload_file',
+        '-upload_image_json',
         action='store',
         help='Path to user information json format file.',
         default=False
     )
     parser.add_argument(
-        '-get_file',
+        '-get_image_json',
         action='store',
         help='Path to user information json format file.',
         default=False
@@ -189,8 +190,8 @@ def main():
     program_args = get_program_args()
     client = NorthStar(DEFAULT_LOCALHOST_ADDRESS)
 
-    if program_args.user_info_file:
-        input_file = os.path.abspath(program_args.user_info_file)
+    if program_args.create_user_json:
+        input_file = os.path.abspath(program_args.create_user_json)
         if input_file:
             user_info_dict = parse_user_info(input_file)
             req = prep_user_request(user_info_dict)
@@ -199,8 +200,8 @@ def main():
             print("NorthStar-Cloud: OUTPUT")
             print("NorthStar-Cloud: AddUser %s", resp)
 
-    if program_args.upload_file:
-        upload_file = os.path.abspath(program_args.upload_file)
+    if program_args.upload_image_json:
+        upload_file = os.path.abspath(program_args.upload_image_json)
         if upload_file:
             user_info_dict = parse_upload_file_info(upload_file)
             req = upload_file_request(user_info_dict)
@@ -209,8 +210,8 @@ def main():
             print("NorthStar-Cloud: OUTPUT")
             print("NorthStar-Cloud: UploadFile resp -> %s", resp)
 
-    if program_args.get_file:
-        get_file_info = os.path.abspath(program_args.get_file)
+    if program_args.get_image_json:
+        get_file_info = os.path.abspath(program_args.get_image_json)
         if get_file_info:
             get_info_dict = parse_get_file_info(get_file_info)
             req = get_file_request(get_info_dict)
@@ -220,8 +221,8 @@ def main():
             print("NorthStar-Cloud: OUTPUT")
             print("NorthStar-Cloud: GetImage resp -> %s", resp)
 
-    if program_args.get_user_info_file:
-        get_user_info = os.path.abspath(program_args.get_user_info_file)
+    if program_args.get_user_json:
+        get_user_info = os.path.abspath(program_args.get_user_json)
         if get_user_info:
             get_user_dict = parse_user_info(get_user_info)
             req = get_user_request(get_user_dict)
