@@ -1,11 +1,10 @@
 import threading
 import time
-import os
 import base64
 
-from northstar_cloud.db import north_star_service_helper as ns_db_helper
+from northstar_cloud.db import north_star_db_helper as ns_db_helper
 from northstar_cloud.common import logs as logging
-from northstar_cloud.services import northstar_watson_services
+from northstar_cloud.services.ibm_cloud_services import ibm_visual_rec_services
 from northstar_cloud.common import utils as c_utils
 
 LOG = logging.getLogger(__name__)
@@ -17,7 +16,7 @@ class NorthStarImageScanning(object):
         self.scan_interval = image_scan_config.get('image_scan_interval', 10)
         self._ns_stop = False
         self._ns_stopped = threading.Event()
-        self.ns_analytics = northstar_watson_services.AnalyticsHelper() \
+        self.ns_analytics = ibm_visual_rec_services.AnalyticsHelper() \
             .get_analytics_instance()
         self.db = None
         self.users_fire_range = image_scan_config.get('users_fire_range', 10)

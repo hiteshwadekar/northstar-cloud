@@ -6,7 +6,7 @@ import grpc
 from northstar_cloud.common import logs as logging
 from northstar_cloud.common import utils as c_utils
 from northstar_cloud.api import northstar_pb2_grpc
-from northstar_cloud.services import northstar_service
+from northstar_cloud.services import northstar_user_services
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
@@ -33,7 +33,7 @@ def serve():
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=10))
     northstar_pb2_grpc.add_NorthStarServiceServicer_to_server(
-        northstar_service.NorthStarServicer(), server)
+        northstar_user_services.NorthStarServicer(), server)
     LOG.info("northstar-cloud: Service stating...")
 
     server.add_insecure_port(DEFAULT_BIND)

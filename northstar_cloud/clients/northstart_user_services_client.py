@@ -53,19 +53,6 @@ class NorthStar(object):
             self.channel.close()
 
 
-def read_config(log_file_path):
-    config = {}
-    config = c_utils.read_json_file(log_file_path)
-    global DEFAULT_BIND
-    global DEFAULT_LOCALHOST_ADDRESS
-
-    if 'bind ' in config.keys():
-        DEFAULT_BIND = config['bind']
-
-    if 'default_local_address' in config.keys():
-        DEFAULT_LOCALHOST_ADDRESS = config['default_local_address']
-
-
 def prep_user_request(user_info_dict):
     lat_lan_req = northstar_pb2.LatLng(latitude=float(user_info_dict['curr_lat']),
                                        longitude=float(user_info_dict['curr_lang']))
