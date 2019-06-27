@@ -1,8 +1,5 @@
 import os
-import datetime
-import sys
 
-from simplecrypt import encrypt, decrypt
 from pymongo import MongoClient
 from mongoengine import connect
 
@@ -12,12 +9,6 @@ from northstar_cloud.common import utils as c_utils
 encKey = b'c\xf8\xccH\xbe\x7ffp\xda\xe4\xa4TY\x03\x85CR<\x97f'
 
 LOG = logging.getLogger(__name__)
-
-DEFAULT_FILE_PATH = "etc/northstar-service-config.json"
-
-ROOT_DIR = os.path.abspath(os.curdir)
-NORTHSTAR_SERVICE_PATH = ROOT_DIR + "/" + DEFAULT_FILE_PATH
-
 
 class Client(object):
     pass
@@ -57,13 +48,19 @@ class MongoEnginDB(object):
         except Exception as e:
             raise e
 
-def get_db_connection(config_path=None):
-    if not config_path:
-        config_path = NORTHSTAR_SERVICE_PATH
+def get_db_connection():
 
-    config = c_utils.read_json_file(config_path)
+    config = c_utils.read_config()
+    DB_DEPLOYMENT = os.environ.get('DB_DEPLOYMENT', "localhost")
+
+    db_host = "localhost"
+    if DB_DEPLOYMENT == "minikube":
+        db_host = config['db']
+    else:
+        db_host = config['db_host']
+
     if config['db'] == 'mongo':
-        db_client = MongoEnginDB(config['db_name'], config['db_host'], config['db_port'])
+        db_client = MongoEnginDB(config['db_name'], db_host, config['db_port'])
         return db_client.connect_to_engine()
 
     return None

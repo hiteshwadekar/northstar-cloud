@@ -1,16 +1,10 @@
 import json
-import os
 
 from ibm_watson import VisualRecognitionV3
 from ibm_watson import ApiException
 
 from northstar_cloud.common import logs as logging
-from northstar_cloud.db import north_star_service_helper as ns_helper
 from northstar_cloud.common import utils as c_utils
-
-DEFAULT_FILE_PATH = "etc/northstar-service-config.json"
-ROOT_DIR = os.path.abspath(os.curdir)
-log_file_path = ROOT_DIR + "/" + DEFAULT_FILE_PATH
 
 LOG = logging.getLogger(__name__)
 
@@ -51,7 +45,7 @@ class AnalyticsHelper(object):
         self.north_star_watson = None
 
     def get_analytics_instance(self):
-        read_config = c_utils.read_json_file(log_file_path, LOG=LOG)
+        read_config = c_utils.read_config()
         self.north_star_watson = NorthStarWatson(
             read_config['iam_vr_version'],
             read_config['iam_vr_apikey'],

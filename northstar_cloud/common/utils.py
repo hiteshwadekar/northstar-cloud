@@ -70,13 +70,6 @@ def read_json_file(input_file, LOG=None):
             sys.exit(0)
     return []
 
-
-def calculate_diff_between_long_latitudes():
-    pass
-
-
-
-
 '''
 Sample output from watson recognization service.
 {
@@ -107,6 +100,12 @@ classes = {'images': [{'classifiers': [{'classifier_id': 'DefaultCustomModel_208
 'Default Custom Model', 'classes': [{'class': 'wildfire', 'score': 0.767}]}], 'image': 'fire_burned.jpg'}], 'images_processed': 1, 'custom_classes': 2}
 '''
 
+def read_config(file_name="config"):
+    config_file = '/etc/northstar-service-config/%s' % file_name
+    with open(config_file) as json_file:
+        config = json.load(json_file)
+    return config
+
 
 def get_classification_for_image(result, image_name):
     """
@@ -122,7 +121,7 @@ def get_classification_for_image(result, image_name):
     return Fire.NO
 
 
-def get_distqance_bet_two_points_using_haversine(lat1, lon1, lat2, lon2):
+def get_distance_bet_two_points_using_haversine(lat1, lon1, lat2, lon2):
     """
     Calculate the great circle distance between two points
     on the earth (specified in decimal degrees)

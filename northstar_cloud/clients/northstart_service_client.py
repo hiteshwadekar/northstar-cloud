@@ -11,9 +11,20 @@ from northstar_cloud.common import utils as c_utils
 
 LOG = logging.getLogger(__name__)
 
-DEFAULT_FILE_PATH = "etc/northstar-service-config.json"
 DEFAULT_BIND = '[::]:50051'
 DEFAULT_LOCALHOST_ADDRESS = "localhost:50051"
+
+
+def init():
+    config = c_utils.read_config()
+    global DEFAULT_BIND
+    global DEFAULT_LOCALHOST_ADDRESS
+
+    if 'bind ' in config.keys():
+        DEFAULT_BIND = config['bind']
+
+    if 'default_local_address' in config.keys():
+        DEFAULT_LOCALHOST_ADDRESS = config['default_local_address']
 
 
 class NorthStar(object):
@@ -187,6 +198,7 @@ def get_program_args():
     return parser.parse_args()
 
 def main():
+    init()
     program_args = get_program_args()
     client = NorthStar(DEFAULT_LOCALHOST_ADDRESS)
 
