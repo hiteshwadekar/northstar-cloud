@@ -8,11 +8,11 @@ data:
   config: |
     {
       "bind" : "[::]:50051",
-      "default_local_address" : "localhost:50051"
+      "default_local_address" : "localhost:50051",
       "db": "mongo",
       "db_name": "northcloud",
       "db_host": "localhost",
-      "db_port":"27017",
+      "db_port": "27017",
       "db_type" : "nosql",
       "iam_vr_apikey": "F4CdHU-gwe-uqeRAdxtYUEKcuYY_wVu03vRvFCuoX4le",
       "iam_vr_version": "2018-03-19",

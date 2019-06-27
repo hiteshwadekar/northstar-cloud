@@ -11,17 +11,13 @@ from northstar_cloud.services import northstar_service
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 LOG = logging.getLogger(__name__)
-DEFAULT_FILE_PATH = "etc/northstar-service-config.json"
+
 DEFAULT_BIND = '[::]:50051'
 DEFAULT_LOCALHOST_ADDRESS = "localhost:50051"
 
-ROOT_DIR = os.path.abspath(os.curdir)
-log_file_path = ROOT_DIR + "/" + DEFAULT_FILE_PATH
 
-
-def read_config():
-    config = {}
-    config = c_utils.read_json_file(log_file_path)
+def init():
+    config = c_utils.read_config()
     global DEFAULT_BIND
     global DEFAULT_LOCALHOST_ADDRESS
 
@@ -33,19 +29,19 @@ def read_config():
 
 
 def serve():
-    read_config()
+    init()
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=10))
     northstar_pb2_grpc.add_NorthStarServiceServicer_to_server(
         northstar_service.NorthStarServicer(), server)
-    LOG.info("northstar-cloud: service stating...")
+    LOG.info("northstar-cloud: Service stating...")
 
     server.add_insecure_port(DEFAULT_BIND)
     try:
         server.start()
         LOG.info(
             "northstar-cloud: is runnnig "
-            "at ... %s" % (DEFAULT_LOCALHOST_ADDRESS)
+            "at %s" % (DEFAULT_LOCALHOST_ADDRESS)
         )
     except Exception as e:
         LOG.info(

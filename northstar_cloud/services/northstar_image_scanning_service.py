@@ -10,11 +10,6 @@ from northstar_cloud.common import utils as c_utils
 
 LOG = logging.getLogger(__name__)
 
-DEFAULT_FILE_PATH = "etc/northstar-service-config.json"
-ROOT_DIR = os.path.abspath(os.curdir)
-log_file_path = ROOT_DIR + "/" + DEFAULT_FILE_PATH
-
-
 
 class NorthStarImageScanning(object):
     def __init__(self, image_scan_config):
@@ -50,7 +45,7 @@ class NorthStarImageScanning(object):
         users = self.db.get_all_users()
         if users:
             for user in users:
-                fire_range = c_utils.get_distqance_bet_two_points_using_haversine(
+                fire_range = c_utils.get_distance_bet_two_points_using_haversine(
                     fire_lat, fire_long, user.curr_location.lat, user.curr_location.lang
                 )
                 LOG.info("_get_users_from_fire_range: User ({0}, {1}, {2}, {3}) is {4} "
