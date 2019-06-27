@@ -1,0 +1,14 @@
+{
+  "user_name" : "user2",
+  "first_name" : "first2",
+  "last_name": "lastname2",
+  "phone_number": "9999999890",
+  "home_address": "IBM Silicon valley",
+  "email_address":"abc1@xyz.com",
+  "office_address": "IBM Silicon valley",
+  "app_id": "app_id_2",
+  "app_type": "iPhone",
+  "curr_lat": "37.3860517",
+  "curr_lang": "-122.0838511",
+  "need_medical_emegency": true
+}

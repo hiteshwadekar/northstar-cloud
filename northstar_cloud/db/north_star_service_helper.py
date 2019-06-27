@@ -143,7 +143,15 @@ class NorthStarService(object):
     def update_image(self, image, is_wild_fire=False, recognition_flag=False):
         if image:
             try:
-                images = image.update(recognition_flag=recognition_flag, is_wild_fire=is_wild_fire)
+                image.update(recognition_flag=recognition_flag, is_wild_fire=is_wild_fire)
             except Exception as e:
                 LOG.exception("update_image: failed to update %s", e)
+
+    def get_all_users(self):
+        users = None
+        try:
+           return ns_model.User.objects()
+        except Exception as e:
+            LOG.exception("get_user: failed to get user %s", e)
+        return users
 

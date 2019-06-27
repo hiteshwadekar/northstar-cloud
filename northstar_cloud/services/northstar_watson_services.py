@@ -43,7 +43,6 @@ class NorthStarWatson(object):
                 classifier_ids = self.classifier_ids
             ).get_result()
             LOG.info("NorthStarWatson:predict_fire: IBM VR analytics responce %s", json.dumps(classes, indent=2))
-            classes = json.dumps(classes, indent=2)
         return classes
 
 

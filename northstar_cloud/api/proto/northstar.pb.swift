@@ -50,19 +50,6 @@ enum NorthstarCloud_FileType: SwiftProtobuf.Enum {
 
 }
 
-#if swift(>=4.2)
-
-extension NorthstarCloud_FileType: CaseIterable {
-  // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [NorthstarCloud_FileType] = [
-    .unknown,
-    .jpeg,
-    .png,
-  ]
-}
-
-#endif  // swift(>=4.2)
-
 struct NorthstarCloud_UploadImageRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -95,7 +82,7 @@ struct NorthstarCloud_UploadImageRequest {
   /// Returns true if `user` has been explicitly set.
   var hasUser: Bool {return _storage._user != nil}
   /// Clears the value of `user`. Subsequent reads from it will return its default value.
-  mutating func clearUser() {_uniqueStorage()._user = nil}
+  mutating func clearUser() {_storage._user = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -216,7 +203,7 @@ struct NorthstarCloud_User {
   /// Returns true if `currentLocation` has been explicitly set.
   var hasCurrentLocation: Bool {return _storage._currentLocation != nil}
   /// Clears the value of `currentLocation`. Subsequent reads from it will return its default value.
-  mutating func clearCurrentLocation() {_uniqueStorage()._currentLocation = nil}
+  mutating func clearCurrentLocation() {_storage._currentLocation = nil}
 
   var healthInfo: NorthstarCloud_HealthInfo {
     get {return _storage._healthInfo ?? NorthstarCloud_HealthInfo()}
@@ -225,7 +212,7 @@ struct NorthstarCloud_User {
   /// Returns true if `healthInfo` has been explicitly set.
   var hasHealthInfo: Bool {return _storage._healthInfo != nil}
   /// Clears the value of `healthInfo`. Subsequent reads from it will return its default value.
-  mutating func clearHealthInfo() {_uniqueStorage()._healthInfo = nil}
+  mutating func clearHealthInfo() {_storage._healthInfo = nil}
 
   var rescueLocations: [NorthstarCloud_LatLng] {
     get {return _storage._rescueLocations}
@@ -251,7 +238,7 @@ struct NorthstarCloud_AddUserRequest {
   /// Returns true if `user` has been explicitly set.
   var hasUser: Bool {return _storage._user != nil}
   /// Clears the value of `user`. Subsequent reads from it will return its default value.
-  mutating func clearUser() {_uniqueStorage()._user = nil}
+  mutating func clearUser() {_storage._user = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -300,7 +287,7 @@ struct NorthstarCloud_GetUserReply {
   /// Returns true if `user` has been explicitly set.
   var hasUser: Bool {return _storage._user != nil}
   /// Clears the value of `user`. Subsequent reads from it will return its default value.
-  mutating func clearUser() {_uniqueStorage()._user = nil}
+  mutating func clearUser() {_storage._user = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -321,7 +308,7 @@ struct NorthstarCloud_GetUserRescuePointsRequest {
   /// Returns true if `user` has been explicitly set.
   var hasUser: Bool {return _storage._user != nil}
   /// Clears the value of `user`. Subsequent reads from it will return its default value.
-  mutating func clearUser() {_uniqueStorage()._user = nil}
+  mutating func clearUser() {_storage._user = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -388,7 +375,7 @@ struct NorthstarCloud_GetImageReply {
   /// Returns true if `user` has been explicitly set.
   var hasUser: Bool {return _storage._user != nil}
   /// Clears the value of `user`. Subsequent reads from it will return its default value.
-  mutating func clearUser() {_uniqueStorage()._user = nil}
+  mutating func clearUser() {_storage._user = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -483,21 +470,21 @@ extension NorthstarCloud_UploadImageRequest: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_UploadImageRequest, rhs: NorthstarCloud_UploadImageRequest) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_UploadImageRequest) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._imageID != rhs_storage._imageID {return false}
-        if _storage._imageName != rhs_storage._imageName {return false}
-        if _storage._imageFormat != rhs_storage._imageFormat {return false}
-        if _storage._image != rhs_storage._image {return false}
-        if _storage._user != rhs_storage._user {return false}
+        let other_storage = _args.1
+        if _storage._imageID != other_storage._imageID {return false}
+        if _storage._imageName != other_storage._imageName {return false}
+        if _storage._imageFormat != other_storage._imageFormat {return false}
+        if _storage._image != other_storage._image {return false}
+        if _storage._user != other_storage._user {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -524,9 +511,9 @@ extension NorthstarCloud_UploadImageReply: SwiftProtobuf.Message, SwiftProtobuf.
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_UploadImageReply, rhs: NorthstarCloud_UploadImageReply) -> Bool {
-    if lhs.success != rhs.success {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_UploadImageReply) -> Bool {
+    if self.success != other.success {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -558,10 +545,10 @@ extension NorthstarCloud_LatLng: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_LatLng, rhs: NorthstarCloud_LatLng) -> Bool {
-    if lhs.latitude != rhs.latitude {return false}
-    if lhs.longitude != rhs.longitude {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_LatLng) -> Bool {
+    if self.latitude != other.latitude {return false}
+    if self.longitude != other.longitude {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -588,9 +575,9 @@ extension NorthstarCloud_HealthInfo: SwiftProtobuf.Message, SwiftProtobuf._Messa
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_HealthInfo, rhs: NorthstarCloud_HealthInfo) -> Bool {
-    if lhs.needMedicalSupport != rhs.needMedicalSupport {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_HealthInfo) -> Bool {
+    if self.needMedicalSupport != other.needMedicalSupport {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -739,31 +726,31 @@ extension NorthstarCloud_User: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_User, rhs: NorthstarCloud_User) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_User) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._userID != rhs_storage._userID {return false}
-        if _storage._userName != rhs_storage._userName {return false}
-        if _storage._firstName != rhs_storage._firstName {return false}
-        if _storage._lastName != rhs_storage._lastName {return false}
-        if _storage._phoneNumber != rhs_storage._phoneNumber {return false}
-        if _storage._homeAddress != rhs_storage._homeAddress {return false}
-        if _storage._emailAddress != rhs_storage._emailAddress {return false}
-        if _storage._officeAddress != rhs_storage._officeAddress {return false}
-        if _storage._appID != rhs_storage._appID {return false}
-        if _storage._appType != rhs_storage._appType {return false}
-        if _storage._lastUpdated != rhs_storage._lastUpdated {return false}
-        if _storage._createdAt != rhs_storage._createdAt {return false}
-        if _storage._currentLocation != rhs_storage._currentLocation {return false}
-        if _storage._healthInfo != rhs_storage._healthInfo {return false}
-        if _storage._rescueLocations != rhs_storage._rescueLocations {return false}
+        let other_storage = _args.1
+        if _storage._userID != other_storage._userID {return false}
+        if _storage._userName != other_storage._userName {return false}
+        if _storage._firstName != other_storage._firstName {return false}
+        if _storage._lastName != other_storage._lastName {return false}
+        if _storage._phoneNumber != other_storage._phoneNumber {return false}
+        if _storage._homeAddress != other_storage._homeAddress {return false}
+        if _storage._emailAddress != other_storage._emailAddress {return false}
+        if _storage._officeAddress != other_storage._officeAddress {return false}
+        if _storage._appID != other_storage._appID {return false}
+        if _storage._appType != other_storage._appType {return false}
+        if _storage._lastUpdated != other_storage._lastUpdated {return false}
+        if _storage._createdAt != other_storage._createdAt {return false}
+        if _storage._currentLocation != other_storage._currentLocation {return false}
+        if _storage._healthInfo != other_storage._healthInfo {return false}
+        if _storage._rescueLocations != other_storage._rescueLocations {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -814,17 +801,17 @@ extension NorthstarCloud_AddUserRequest: SwiftProtobuf.Message, SwiftProtobuf._M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_AddUserRequest, rhs: NorthstarCloud_AddUserRequest) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_AddUserRequest) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._user != rhs_storage._user {return false}
+        let other_storage = _args.1
+        if _storage._user != other_storage._user {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -851,9 +838,9 @@ extension NorthstarCloud_AddUserReply: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_AddUserReply, rhs: NorthstarCloud_AddUserReply) -> Bool {
-    if lhs.success != rhs.success {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_AddUserReply) -> Bool {
+    if self.success != other.success {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -890,11 +877,11 @@ extension NorthstarCloud_GetUserRequest: SwiftProtobuf.Message, SwiftProtobuf._M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetUserRequest, rhs: NorthstarCloud_GetUserRequest) -> Bool {
-    if lhs.userID != rhs.userID {return false}
-    if lhs.userName != rhs.userName {return false}
-    if lhs.appID != rhs.appID {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetUserRequest) -> Bool {
+    if self.userID != other.userID {return false}
+    if self.userName != other.userName {return false}
+    if self.appID != other.appID {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -945,17 +932,17 @@ extension NorthstarCloud_GetUserReply: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetUserReply, rhs: NorthstarCloud_GetUserReply) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetUserReply) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._user != rhs_storage._user {return false}
+        let other_storage = _args.1
+        if _storage._user != other_storage._user {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -1006,17 +993,17 @@ extension NorthstarCloud_GetUserRescuePointsRequest: SwiftProtobuf.Message, Swif
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetUserRescuePointsRequest, rhs: NorthstarCloud_GetUserRescuePointsRequest) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetUserRescuePointsRequest) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._user != rhs_storage._user {return false}
+        let other_storage = _args.1
+        if _storage._user != other_storage._user {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -1043,9 +1030,9 @@ extension NorthstarCloud_GetUserRescuePointsReply: SwiftProtobuf.Message, SwiftP
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetUserRescuePointsReply, rhs: NorthstarCloud_GetUserRescuePointsReply) -> Bool {
-    if lhs.rescueLocations != rhs.rescueLocations {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetUserRescuePointsReply) -> Bool {
+    if self.rescueLocations != other.rescueLocations {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -1077,10 +1064,10 @@ extension NorthstarCloud_GetImageRequest: SwiftProtobuf.Message, SwiftProtobuf._
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetImageRequest, rhs: NorthstarCloud_GetImageRequest) -> Bool {
-    if lhs.imageID != rhs.imageID {return false}
-    if lhs.imageName != rhs.imageName {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetImageRequest) -> Bool {
+    if self.imageID != other.imageID {return false}
+    if self.imageName != other.imageName {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -1159,21 +1146,21 @@ extension NorthstarCloud_GetImageReply: SwiftProtobuf.Message, SwiftProtobuf._Me
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: NorthstarCloud_GetImageReply, rhs: NorthstarCloud_GetImageReply) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: NorthstarCloud_GetImageReply) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._imageID != rhs_storage._imageID {return false}
-        if _storage._imageName != rhs_storage._imageName {return false}
-        if _storage._imageFormat != rhs_storage._imageFormat {return false}
-        if _storage._image != rhs_storage._image {return false}
-        if _storage._user != rhs_storage._user {return false}
+        let other_storage = _args.1
+        if _storage._imageID != other_storage._imageID {return false}
+        if _storage._imageName != other_storage._imageName {return false}
+        if _storage._imageFormat != other_storage._imageFormat {return false}
+        if _storage._image != other_storage._image {return false}
+        if _storage._user != other_storage._user {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
