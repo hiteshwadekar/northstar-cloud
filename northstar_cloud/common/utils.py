@@ -36,25 +36,6 @@ def get_file_type_pb2(file_type_name):
     return file_type_dict.get(file_type_name, None)
 
 
-def get_max_length_list(wt_paths):
-    max_len = 0
-    max_len_list = []
-    for item in wt_paths:
-        if max_len < len(item):
-            max_len = len(item)
-            max_len_list = item
-    return max_len, max_len_list
-
-
-def convert_unique_agg_list_from_multiple_list(input_list):
-    if input_list:
-        unique_set = set()
-        for each_list in input_list:
-            unique_set.update(each_list)
-        return list(unique_set)
-    return []
-
-
 def read_json_file(input_file, LOG=None):
     if input_file:
         try:

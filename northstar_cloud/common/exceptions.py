@@ -11,9 +11,5 @@ class JsonFileNotFound(BaseException):
     template = "error:JsonFileNotFound File:%(file_name)s"
 
 
-class TopologicalSortKeyError(BaseException):
-    template = "error:Unable to find vertex :%(vertex_key)s"
-
-
 class ImageNameNotProvided(BaseException):
     template = "error:request do not have image name or image id"

@@ -44,12 +44,13 @@ metadata:
     app: northstar-cloud
   name: northstar-cloud
 spec:
-  type: ClusterIP
-  clusterIP: None
+  type: NodePort
   ports:
     - name: api-pod-port
       port: 50051
-      targetPort: api-pod-port
+      targetPort: 50051
+      nodePort: 30036
+      protocol: TCP
   selector:
-    app: northstar-cloud
+    name: northstar-cloud
 ---
