@@ -2,12 +2,15 @@ import grpc
 import argparse
 import os
 import base64
+import json
 
 from northstar_cloud.api import northstar_pb2_grpc
 from northstar_cloud.api import northstar_pb2
 
 from northstar_cloud.common import logs as logging
 from northstar_cloud.common import utils as c_utils
+
+from northstar_cloud.services.ibm_cloud_services import ibm_weather_services
 
 LOG = logging.getLogger(__name__)
 
@@ -182,6 +185,12 @@ def get_program_args():
         help='Path to user information json format file.',
         default=False
     )
+    parser.add_argument(
+        '-get_weather_json',
+        action='store',
+        help='Path to user information json format file.',
+        default=False
+    )
     return parser.parse_args()
 
 def main():
@@ -229,6 +238,17 @@ def main():
             print("\n")
             print("NorthStar-Cloud: OUTPUT")
             print("NorthStar-Cloud: GetUser resp -> %s", resp)
+
+    if program_args.get_weather_json:
+        get_weather_info = os.path.abspath(program_args.get_weather_json)
+        if get_weather_info:
+            get_weather_dict = parse_user_info(get_weather_info)
+            ibm_weather = ibm_weather_services.IBMWeatherServices()
+            resp = ibm_weather.get_daily_forecast(get_weather_dict['lat'], get_weather_dict['lang'])
+            print("\n")
+            print("NorthStar-Cloud: OUTPUT")
+            print("NorthStar-Cloud: IBM Weather channel : ")
+            print(json.dumps(resp, indent=4, sort_keys=True))
 
 
 if __name__ == '__main__':

@@ -9,5 +9,10 @@
     "iam_vr_version": "2018-03-19",
     "iam_classifier_ids": "DefaultCustomModel_2080973559",
     "image_scan_interval": 10,
-    "users_fire_range": 10
+    "users_fire_range": 10,
+    "weather_api_key": "da328055e2e940d8b28055e2e9e0d851",
+    "weather_host": "https://api.weather.com",
+    "fire_model_name": "northstar_fire_pred.joblib",
+    "fire_model_path": "northstar_cloud/services/ml_models/",
+    "user_ml_scan_interval": 10
  }

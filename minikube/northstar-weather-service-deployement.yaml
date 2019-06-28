@@ -1,9 +1,8 @@
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: northstar-cloud
+  name: northstar-weather-service
 spec:
   replicas: 1
   strategy: {}
@@ -11,21 +10,18 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: northstar-cloud
+        app: northstar-weather-service
     spec:
       containers:
-        - name: northstar-cloud
+        - name: northstar-weather-service
           stdin: true
           tty: true
           args:
-            - northstar-cloud
+            - northstar-weather
           image: northstar-cloud:latest
           env:
             - name: DB_DEPLOYMENT
               value: "minikube"
-          ports:
-            - name: api-pod-port
-              containerPort: 50051
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: northstar-service-config
@@ -36,21 +32,3 @@ spec:
         - name: northstar-service-config
           configMap:
             name: northstar-service-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: northstar-cloud
-  name: northstar-cloud
-spec:
-  type: NodePort
-  ports:
-    - name: api-pod-port
-      port: 50051
-      targetPort: 50051
-      nodePort: 30036
-      protocol: TCP
-  selector:
-    name: northstar-cloud
----

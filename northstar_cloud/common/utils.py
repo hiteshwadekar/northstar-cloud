@@ -117,3 +117,75 @@ def get_distance_bet_two_points_using_haversine(lat1, lon1, lat2, lon2):
     c = 2 * asin(sqrt(a))
     r = 3956 # Radius of earth in miles. Use 6371 for kilometers
     return c * r
+
+def get_weather_host():
+    config = read_config()
+    return config.get('weather_host', 'https://api.weather.com')
+
+def get_default_params():
+    config = read_config()
+    return {
+        'apiKey': config.get('weather_api_key', ''),
+        'language': 'en-US'
+    }
+
+def request_headers():
+    return {
+        'User-Agent': 'Request-Promise',
+        'Accept': 'application/json',
+        'Accept-Encoding': 'gzip'
+    }
+
+
+def get_dummy_weather_no_fire_data():
+    return {
+        "time": 1499360400,
+        "summary": "Foggy",
+    "icon": "fog",
+    "precipIntensity": 0,
+    "precipProbability": 0,
+    "temperature": 87.72,
+    "apparentTemperature": 87.72,
+    "dewPoint": 50.78,
+    "humidity": 0.28,
+    "pressure": 1016.99,
+    "windSpeed": 4.42,
+    "windGust": 6.44,
+    "windBearing": 54,
+    "cloudCover": 0.19,
+    "uvIndex": 5,
+    "visibility": 1.24,
+    "latitude": "36.07228",
+    "longitude": "-120.26561",
+    "Date": "07/06/17",
+    "hour": 10,
+    "dayofyear": 187,
+    "monthofyear": 7
+  }
+
+
+def get_dummy_weather_with_fire_data():
+    return {
+    "time": 1518991200,
+    "summary": "Clear",
+    "icon": "clear-day",
+    "precipIntensity": 0,
+    "precipProbability": 0,
+    "temperature": 59.2,
+    "apparentTemperature": 59.2,
+    "dewPoint": -0.78,
+    "humidity": 0.09,
+    "pressure": 998.1,
+    "windSpeed": 10.74,
+    "windGust": 32.81,
+    "windBearing": 257,
+    "cloudCover": 0,
+    "uvIndex": 3,
+    "visibility": 9.997,
+    "latitude": "37.40208",
+    "longitude": "-118.50235",
+    "Date": "02/18/18",
+    "hour": 14,
+    "dayofyear": 49,
+    "monthofyear": 2
+  }
