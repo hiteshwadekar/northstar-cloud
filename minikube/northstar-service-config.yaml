@@ -22,6 +22,10 @@ data:
       "weather_api_key": "da328055e2e940d8b28055e2e9e0d851",
       "weather_host": "https://api.weather.com",
       "fire_model_name": "northstar_fire_pred.joblib",
+      "fire_model_pickle_col": "columns_to_keep.pickle",
+      "fire_model_pickle_mod": "model_reqs.pickle",
       "fire_model_path": "northstar_cloud/services/ml_models/",
-      "user_ml_scan_interval": 10
+      "user_ml_scan_interval": 10,
+      "wdir": "wdir",
+      "wdir_cardinal": "wdir_cardinal"
     }

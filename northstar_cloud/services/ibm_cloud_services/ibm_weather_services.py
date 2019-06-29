@@ -93,6 +93,23 @@ class WeatherDailyForecast(object):
             print('daily-forecast: no daily forecast returned')
         return res
 
+    def hourly_request_options(self, lat, lon, hour=0, units='m'):
+        u = units if units in ['e', 'm', 'h', 's'] else 'm'
+        url = self.host + '/v1/geocode/{lat}/{lon}/forecast/hourly/48hour.json'.format(lat=lat, lon=lon)
+        params = self.default_params
+        params['units'] = u
+        return url, params
+
+    def handle_hourly_response(self, res):
+        if res and res['forecasts']:
+            forecasts = res['forecasts']
+            print('daily-forecast: returned {}-day forecast'.format(len(forecasts)))
+        # additional entries include (but not limited to):
+        # lunar_phase, sunrise, day['uv_index'], night['wdir'], etc
+        else:
+            print('daily-forecast: no daily forecast returned')
+        return res
+
 
 class WeatherTropicalForecast(object):
     def __init__(self, host, default_params):
@@ -188,6 +205,21 @@ class IBMWeatherServices(object):
         random_list = [fire_data_1, fire_data_2]
         return random.choice(random_list)
 
+    def get_current_forecast(self, lat, lon, units='m'):
+        LOG.info("IBMWeatherServices: get_current_forecast for "
+                  "location lat: %s, lang: %s", lat, lon)
+
+        url, params = self.dailyforecast.hourly_request_options(lat, lon)
+        headers = self.request_headers
+
+        r = requests.get(url, params=params, headers=headers)
+        if r.status_code == 200:
+            if r and 'forecasts' in r.json():
+                return r.json()['forecasts'][0]
+            return {}
+        else:
+            self.handleFail('get_current_forecast', r)
+        return {}
 
     def get_alert_headlines(self, lat, lon):
         url, params = self.alert_headlines.request_options(lat, lon)

@@ -11,9 +11,9 @@ class TestNorthStarImageScanning(base.BaseTest):
         self.service = mock.Mock()
 
     @pytest.skip("fixing")
-    def test_init_aggregate_witness_events(self):
+    def test_getting_images(self):
         pass
 
     @pytest.skip("fixing")
-    def test_calculate_predict_witness_merge(self):
+    def test_predict_fire_from_image(self):
         pass
