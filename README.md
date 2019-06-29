@@ -341,6 +341,37 @@ northstar-weather-service-3724735887-5tgjn   1/1       Running   0          1h
 ```
 
 
+## Development Start
+
+All the end user mobile client API defined here,
+
+``` bash
+~/git-repo-play/northstar-cloud/northstar_cloud/api/proto$ls -lrt
+total 224
+-rwxr-xr-x  1 Hitesh.Wadekar@ibm.com  staff    235 Jun  9 18:16 build_proto.sh
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff      0 Jun 10 16:24 __init__.py
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  31798 Jun 20 21:38 northstar_pb2.py
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff   6127 Jun 20 21:38 northstar_pb2_grpc.py
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff   2185 Jun 25 17:52 northstar.proto
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  17156 Jun 25 18:49 northstar.grpc.swift
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  41740 Jun 25 18:49 northstar.pb.swift
+```
+
+The server and background (thread services) are defined here,
+```bash
+~/git-repo-play/northstar-cloud/northstar_cloud/services$ls -lrt
+total 56
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff     0 Jun  3 16:20 __init__.py
+drwxr-xr-x  3 Hitesh.Wadekar@ibm.com  staff    96 Jun 27 16:15 project_lali_services
+drwxr-xr-x  3 Hitesh.Wadekar@ibm.com  staff    96 Jun 27 16:15 project_owl_services
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  8044 Jun 27 16:23 northstar_user_services.py
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  4948 Jun 28 17:19 northstar_user_ml_analytics_service.py
+drwxr-xr-x  5 Hitesh.Wadekar@ibm.com  staff   160 Jun 28 18:48 ml_models
+drwxr-xr-x  7 Hitesh.Wadekar@ibm.com  staff   224 Jun 28 19:06 ibm_cloud_services
+-rw-r--r--  1 Hitesh.Wadekar@ibm.com  staff  9085 Jun 28 19:57 northstar_image_scanning_service.py
+
+```
+
 ## Built With
 TO BE ADDED
 
