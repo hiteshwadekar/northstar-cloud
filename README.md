@@ -392,6 +392,13 @@ if further questions, please reach me at: hitesh.wadekar@ibm.com or team northst
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
+
+## Nothstar mobile app repository
+https://github.com/agarwaldax/cfc_northstar
+
+## Nothstar Machine learning repository
+https://github.ibm.com/Rahul-Dalal/northstar
+
 ## License
 
 This project is licensed under the Apache 2 License - see the [LICENSE.md](LICENSE.md) file for details
