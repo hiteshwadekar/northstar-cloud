@@ -34,7 +34,7 @@ class NorthStarUserMlService(object):
             while not self._ns_stop:
                 try:
                     self.db = ns_db_helper.NorthStarService()
-                    self.weather_ml_analysis_job()
+                    self.weather_ml_analytics_job()
                 except Exception:
                     LOG.exception('NorthStarImageScanning:FailedToRunThread')
                 time.sleep(self.user_ml_scan_interval)
@@ -92,8 +92,8 @@ class NorthStarUserMlService(object):
 
         return possible_fire, user_weather_data
 
-    def weather_ml_analysis_job(self):
-        LOG.info("weather_ml_analysis_job: checking weather fire patterns.")
+    def weather_ml_analytics_job(self):
+        LOG.info("weather_ml_analytics_job: checking weather fire patterns.")
         users = self.db.get_all_users()
         if users:
             for user in users:
@@ -101,24 +101,20 @@ class NorthStarUserMlService(object):
                     possible_fire, user_weather_data = self._predict_fire(user)
                     if possible_fire:
                         LOG.info(
-                            "weather_ml_analysis_job: -PREDICTED FIRE CONDITION ---- at location latitude %s, longitude %s-> ",
+                            "weather_ml_analytics_job: -- PREDICTED HIGH PROBABILITY OF WILDFIRE -- (latitude %s, longitude %s) -> ",
                             user.curr_location.lat, user.curr_location.lang)
 
-                        LOG.info("weather_ml_analysis_job: User weather data: %s", user_weather_data)
+                        LOG.info("weather_ml_analytics_job: Using current weather data: %s", user_weather_data)
 
-                        LOG.info("weather_ml_analysis_job: Notify users within 10 miles range from location latitude %s, longitude %s",
-                                 user.curr_location.lat, user.curr_location.lang)
+
+                        LOG.info("weather_ml_analytics_job: Searching for users within 10 miles for notification.")
                         need_notify_users = self.notify_users(user.curr_location)
                         if need_notify_users:
                             LOG.info(
-                                "weather_ml_analysis_job: Notifying these users %s  for possible fire condition at latitude %s, longitude %s",
+                                "weather_ml_analytics_job: ALERT USERS %s ABOUT HIGH PROBABILITY OF WILDFIRE NEAR (latitude %s, longitude %s)",
                                     [(user.user_id, user.user_name) for user in need_notify_users], user.curr_location.lat, user.curr_location.lang)
                         else:
                             continue
-                    else:
-                        LOG.info("weather_ml_analysis_job: No user found to to check weather fire pattern ..")
                 except Exception as e:
-                    LOG.info("weather_ml_analysis_job: exception %s occurred while predicting fire condition. ", e)
+                    LOG.info("weather_ml_analytics_job: exception %s occurred while predicting high risk of wildfire. ", e)
                     continue
-        else:
-            LOG.info("weather_ml_analysis_job: No user found to to check weather fire pattern ..")

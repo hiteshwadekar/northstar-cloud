@@ -244,7 +244,7 @@ def main():
         if get_weather_info:
             get_weather_dict = parse_user_info(get_weather_info)
             ibm_weather = ibm_weather_services.IBMWeatherServices()
-            resp = ibm_weather.get_daily_forecast(get_weather_dict['lat'], get_weather_dict['lang'])
+            resp = ibm_weather.get_current_forecast(get_weather_dict['lat'], get_weather_dict['lang'])
             print("\n")
             print("NorthStar-Cloud: OUTPUT")
             print("NorthStar-Cloud: IBM Weather channel : ")
