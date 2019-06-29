@@ -1,13 +1,16 @@
-# northstar-cloud
+
+# Project NorthStar-Cloud
 
 A microservice for providing NorthStar cloud operations.
 
-### Design
-Requirements
+NorthStar cloud is a Python, gRPC based distributed microservices, which provide APIs and alerting for mobile end services. Using IBM's analytics, weather services, cloud and visual recognition NorthStar to calculate safe location, fire prediction. The basic architecturre of NorthStar cloud inspired by Uber and Lyft model, 
+which includes analytics  to get the routes. This project further extending and allowing room to accomade novel communication system such as Project OWL and Project Lali.      
 
 
-### Developer Setup
-Tools: Python, gRPC framework, REST framework, MySQL, Docker and Kubernetes.
+## Getting Started
+
+### Prerequisites
+Tools: Python, gRPC framework, MongoDB, Docker and Kubernetes.
 
 First install some basic Python things.
 
@@ -16,13 +19,32 @@ sudo apt install python python-dev python-pip
 sudo pip install -U tox
 
 
+Please refer below links for development tools to install (Mac OS),
+
+Mongo,
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+
+Docker,
+https://docs.docker.com/docker-for-mac/install/
+
+Kubernetes
+https://matthewpalmer.net/kubernetes-app-developer/articles/guide-install-kubernetes-mac.html
+
+### Installing
 Now, Go to the root of this repo (northstar-cloud)
 
-To install northstar-cloud,
 ``` shell
 cd northstar-cloud/
 pip install -r requirements.txt
-python setup.py install
+python setup.py install or pip install .
+
+Installing collected packages: northstar-cloud
+  Found existing installation: northstar-cloud 0.0.1.dev12
+    Uninstalling northstar-cloud-0.0.1.dev12:
+      Successfully uninstalled northstar-cloud-0.0.1.dev12
+  Running setup.py install for northstar-cloud ... done
+Successfully installed northstar-cloud-0.0.1.dev12
+
 ```
 
 To test everything OK, run tox (automation testing library).
@@ -31,11 +53,60 @@ To test everything OK, run tox (automation testing library).
 tox -epy36
 ```
 
-add user into northstar-cloud from cli,
+Run server in one terminal root of this repo (northstar-cloud) ,
 ``` shell
-python northstar_cloud/clients/northstart_service.py examples/sample-user.json
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_services_start.py 
+2019-06-28 20:50:24,218 - __main__ - INFO - northstar-cloud: Service stating...
+2019-06-28 20:50:24,221 - __main__ - INFO - northstar-cloud: is runnnig at localhost:50051
+```
 
-2019-06-20 15:39:31,373 - __main__ - INFO - northstar-service-client: Request :user {
+
+Run northstar cloud image visual recognition service,
+``` shell
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
+2019-06-28 21:02:33,133 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+
+```
+
+Run northstar cloud user machine learning service,
+``` shell
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_ml_start.py 
+2019-06-28 21:04:13,636 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: checking weather fire patterns.
+2019-06-28 21:04:13,653 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - _predict_fire: calling IBM ML analytics service.
+2019-06-28 21:04:13,654 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_hourly_forecast for location lat: 37.32, lang: -122.03
+
+```
+
+
+To insert sample data through client, run in other terminal root of this repo (northstar-cloud),
+``` shell
+~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -h
+usage: northstart_user_services_client.py [-h]
+                                          [-create_user_json CREATE_USER_JSON]
+                                          [-get_user_json GET_USER_JSON]
+                                          [-upload_image_json UPLOAD_IMAGE_JSON]
+                                          [-get_image_json GET_IMAGE_JSON]
+                                          [-get_weather_json GET_WEATHER_JSON]
+
+NorthStar cloud tools.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -create_user_json CREATE_USER_JSON
+                        Path to user information json format file.
+  -get_user_json GET_USER_JSON
+                        Path to get user information json format file.
+  -upload_image_json UPLOAD_IMAGE_JSON
+                        Path to user information json format file.
+  -get_image_json GET_IMAGE_JSON
+                        Path to user information json format file.
+  -get_weather_json GET_WEATHER_JSON
+                        Path to user information json format file.
+
+
+Insert User1
+~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user1.json 
+2019-06-28 20:52:45,631 - __main__ - INFO - northstar-service-client: Request :user {
   user_name: "help.me"
   first_name: "acb"
   last_name: "xyz"
@@ -46,119 +117,148 @@ python northstar_cloud/clients/northstart_service.py examples/sample-user.json
   app_id: "app_id_1"
   app_type: "iPhone"
   current_location {
-    latitude: 37.121
-    longitude: -121.5655
+    latitude: 37.3229978
+    longitude: -122.0321823
   }
   health_info {
     need_medical_support: true
   }
 }
 
-2019-06-20 15:39:31,697 - __main__ - INFO - northstar-service-client: Response :success: true
-```
+2019-06-28 20:52:45,934 - __main__ - INFO - northstar-service-client: Response :success: true
 
-Run server in one terminal,
-``` shell
-python northstar_cloud/cli/northstar_cloud_start.py 
+NorthStar-Cloud: OUTPUT
+NorthStar-Cloud: AddUser %s success: true
 
-2019-06-20 15:39:20,074 - __main__ - INFO - northstar-cloud: service stating...
-2019-06-20 15:39:20,076 - __main__ - INFO - northstar-cloud: is runnnig at ... localhost:50051
-```
 
-Run client in other terminal,
-``` shell
-python northstar_cloud/clients/northstart_service.py examples/sample-user.json
-
-2019-06-20 15:39:31,373 - __main__ - INFO - northstar-service-client: Request :user {
-  user_name: "help.me"
-  first_name: "acb"
-  last_name: "xyz"
-  phone_number: "4089779890"
+Insert User1
+~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user2.json 
+2019-06-28 20:53:45,592 - __main__ - INFO - northstar-service-client: Request :user {
+  user_name: "user2"
+  first_name: "first2"
+  last_name: "lastname2"
+  phone_number: "9999999890"
   home_address: "IBM Silicon valley"
-  email_address: "abc@xyz.com"
+  email_address: "abc1@xyz.com"
   office_address: "IBM Silicon valley"
-  app_id: "app_id_1"
+  app_id: "app_id_2"
   app_type: "iPhone"
   current_location {
-    latitude: 37.121
-    longitude: -121.5655
+    latitude: 37.3860517
+    longitude: -122.0838511
   }
   health_info {
     need_medical_support: true
   }
 }
 
-2019-06-20 15:39:31,697 - __main__ - INFO - northstar-service-client: Response :success: true
+2019-06-28 20:53:45,599 - __main__ - INFO - northstar-service-client: Response :success: true
+
+
+NorthStar-Cloud: OUTPUT
+NorthStar-Cloud: AddUser %s success: true
+
+
+Upload Image
+~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -upload_image_json examples/upload-image.json 
+2019-06-28 20:54:47,186 - __main__ - INFO - northstar-service-client: Request :image_name: "fire_burned.jpg"
+image_format: JPEG
+image: "{bytecode}"
+user {
+  user_name: "help.me"
+}
+
+2019-06-28 20:54:47,312 - __main__ - INFO - northstar-service-client: Response :success: true
+
+
+NorthStar-Cloud: OUTPUT
+NorthStar-Cloud: UploadFile resp -> %s success: true
+
+
+~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -get_weather_json examples/weather-info.json 
+2019-06-28 20:56:07,968 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_current_forecast for location lat: 37.3229978, lang: -122.0321823
+
+NorthStar-Cloud: OUTPUT
+NorthStar-Cloud: IBM Weather channel : 
+{
+    "class": "fod_short_range_hourly",
+    "clds": 5,
+    "day_ind": "N",
+    "dewpt": 8,
+    "dow": "Friday",
+    "expire_time_gmt": 1561780962,
+    "fcst_valid": 1561780800,
+    "fcst_valid_local": "2019-06-28T21:00:00-0700",
+    "feels_like": 18,
+    "golf_category": "",
+    "golf_index": null,
+    "gust": 37,
+    "hi": 18,
+    "icon_code": 31,
+    "icon_extd": 3100,
+    "mslp": 1017.19,
+    "num": 1,
+    "phrase_12char": "Clear",
+    "phrase_22char": "Clear",
+    "phrase_32char": "Clear",
+    "pop": 0,
+    "precip_type": "rain",
+    "qpf": 0.0,
+    "rh": 51,
+    "severity": 1,
+    "snow_qpf": 0.0,
+    "subphrase_pt1": "Clear",
+    "subphrase_pt2": "",
+    "subphrase_pt3": "",
+    "temp": 18,
+    "uv_desc": "Low",
+    "uv_index": 0,
+    "uv_index_raw": 0,
+    "uv_warning": 0,
+    "vis": 16.0,
+    "wc": 18,
+    "wdir": 327,
+    "wdir_cardinal": "NNW",
+    "wspd": 15,
+    "wxman": "wx1500"
+}
+
+
+
 ```
 
 
-### Building and Running northstar-cloud in Docker
+## Running the tests
 
-Build docker image.
+Tests are yet to immplement fully end to end, however, to run sample use below commands.
 
-Run commands from ROOT directory (smart-detective-api)
+Unit tests to run root of this repo (northstar-cloud),
 ``` shell
-docker build -t northstar-cloud . 
+tox -epy36
 ```
 
-Run northstar-cloud's docker container and test APIs 
-
+Functional tests to run root of this repo (northstar-cloud),
 ``` shell
-docker images
-REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE
-northstar-cloud                                latest              642ac58bed81        8 hours ago         1.21GB
-
-docker run -d -it --name northstar-cloud northstar-cloud:latest
-
-docker ps
-CONTAINER ID        IMAGE                        COMMAND             CREATED             STATUS              PORTS               NAMES
-fc9dbd868e87        northstar-cloud:latest   "python3"           4 seconds ago       Up 3 seconds                            northstar-cloud
-
-docker exec -it fc9dbd868e87 bash
-
-CLI:
-root@fc9dbd868e87:/usr/src/app# python northstar_cloud/cli/detective_api_cli.py examples/example1.json 
-2019-04-30 03:51:34,771 - northstar_cloud.services.detective_api_service - INFO - init_aggregate_witness_events: Initializing input witness events [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']]
-2019-04-30 03:51:34,771 - northstar_cloud.services.detective_api_service - INFO - calculate_witness_merge: Calculating witness event merge for: [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']]
-
-detective-api: OUTPUT
-detective-api: Witness events given input : [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']] 
-detective-api: Witness events prediction      : WITNESS_DECISION_MERGE_ALL_POSSIBLE 
-detective-api: Witness events predicted list  : [['fight', 'gunshot', 'falling', 'fleeing']]
-
-
-gRPC:
-root@fc9dbd868e87:/usr/src/app# python northstar_cloud/api/detective_api_rpc_client.py examples/example1.json 
-2019-04-30 03:54:09,888 - __main__ - INFO - detective-api-client: Request :witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "fleeing"
-}
-witness_events {
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
-
-2019-04-30 03:54:09,893 - __main__ - INFO - detective-api-client: Response :decision: WITNESS_DECISION_MERGE_ALL_POSSIBLE
-witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
-
-detective-api: OUTPUT
-detective-api: Witness events given input : [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']] 
-detective-api: Witness events prediction      : WITNESS_DECISION_MERGE_ALL_POSSIBLE 
-detective-api: Witness events predicted list  : [['fight', 'gunshot', 'falling', 'fleeing']]
+tox -efunctional
 ```
 
+
+### And coding style tests
+
+We are using Python PEP8 coding style while writting code, we run to check style to confirm its acceptable, 
+from root of this repo (northstar-cloud)
+``` shell
+tox -epep8
+```
+
+## Deployment
+We have enabled kubernetes deployement, for production, using below yaml files, we can deploy and scale it on 
+IBM Cloud kubernetes service
 
 ### Building and running northstar-cloud for kubernetes.
 
 Local development is done using [minikube]
-First, install kubernetes and minikube and then start minikube cluster.
+First, install kubernetes and minikube (refer Prerequisites section) and then start minikube cluster.
 
 ```
 $ minikube start
@@ -187,67 +287,82 @@ $ docker build -t northstar-cloud .
 gRPC server port configuration at, 
 
 ```bash
-~/northstar-cloud/minikube$ls -lrt
-total 24
-78 Apr 29 15:41 detective-api-config.json
-204 Apr 29 22:30 detective-api-config.yaml
-1102 Apr 29 22:30 detective-api-deployement.yaml
+~/git-repo-play/northstar-cloud/minikube$ls -lrt
+total 40
+-rw-r--r--  1 887 Jun 26 20:29 northstar-image-scanning-service-deployement.yaml
+-rw-r--r--  1 442 Jun 26 20:49 northstart-mongodb.yaml
+-rw-r--r--  1 1262 Jun 27 23:42 northstar-api-service-deployement.yaml
+-rw-r--r--  1 883 Jun 27 23:49 northstar-weather-service-deployement.yaml
+-rw-r--r--  1 1010 Jun 28 20:00 northstar-service-config.yaml
 ```
 
 Deploy service on k8s cluster,
 ```
 $ cd minikube/
-$ kubectl create -f detective-api-deployement.yaml
+$ kubectl create -f .
 ```
 
 ```bash
-$ kubectl get services
-NAME                  TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)     AGE
-kubernetes            ClusterIP   10.0.0.1     <none>        443/TCP     18d
-smart-detective-api   ClusterIP   None         <none>        50051/TCP   9s
+~/git-repo-play/northstar-cloud/minikube$ kubectl get pod
+NAME                                         READY     STATUS    RESTARTS   AGE
+mongo-3764497210-g355s                       1/1       Running   0          1h
+northstar-image-scanning-972372552-vvmxl     1/1       Running   0          1h
+northstar-user-service-2440208372-h49v2      1/1       Running   0          1h
+northstar-weather-service-3724735887-5tgjn   1/1       Running   0          1h
 ```
-
 
 ```bash
-$ kubectl get pod
-NAME                                   READY     STATUS    RESTARTS   AGE
-northstar-cloud-3517672685-n8gdp   1/1       Running   0          43s
-```
+~/git-repo-play/northstar-cloud/minikube$ kubectl logs -f northstar-user-service-2440208372-h49v2 
+2019-06-29 02:46:20,211 - northstar_cloud.cli.northstar_cloud_user_services_start - INFO - northstar-cloud: Service stating...
+2019-06-29 02:46:20,214 - northstar_cloud.cli.northstar_cloud_user_services_start - INFO - northstar-cloud: is runnnig at localhost:50051
 
+```
 
 ```bash
-kubectl logs smart-detective-api-3517672685-n8gdp
-2019-04-30 03:58:35,152 - northstar_cloud.api.detective_api_rpc - INFO - detective-api: service stating...
-2019-04-30 03:58:35,156 - northstar_cloud.api.detective_api_rpc - INFO - detective-api: is runnnig at ... localhost:50051
+
+~/git-repo-play/northstar-cloud/minikube$ kubectl logs -f northstar-user-service-2440208372-h49v2 
+2019-06-29 02:46:20,211 - northstar_cloud.cli.northstar_cloud_user_services_start - INFO - northstar-cloud: Service stating...
+2019-06-29 02:46:20,214 - northstar_cloud.cli.northstar_cloud_user_services_start - INFO - northstar-cloud: is runnnig at localhost:50051
+^C
+~/git-repo-play/northstar-cloud/minikube$ kubectl logs -f northstar-image-scanning-972372552-vvmxl
+2019-06-29 02:46:20,308 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-06-29 02:46:40,887 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-06-29 02:46:50,888 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+
+```
+
+```bash
+~/git-repo-play/northstar-cloud/minikube$kubectl logs -f northstar-image-scanning-972372552-vvmxl
+2019-06-29 02:46:20,308 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-06-29 02:46:40,887 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-06-29 02:46:50,888 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-06-29 02:46:50,891 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-06-29 02:47:00,901 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire...
 ```
 
 
-```shell
-kubectl exec -it smart-detective-api-3517672685-n8gdp bash
-root@smart-detective-api-3517672685-n8gdp:/usr/src/app# python northstar_cloud/api/detective_api_rpc_client.py examples/example1.json 
-2019-04-30 04:01:48,965 - __main__ - INFO - detective-api-client: Request :witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "fleeing"
-}
-witness_events {
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
+## Built With
+TO BE ADDED
 
-2019-04-30 04:01:48,968 - __main__ - INFO - detective-api-client: Response :decision: WITNESS_DECISION_MERGE_ALL_POSSIBLE
-witness_events {
-  name: "fight"
-  name: "gunshot"
-  name: "falling"
-  name: "fleeing"
-}
 
-detective-api: OUTPUT
-detective-api: Witness events given input : [['fight', 'gunshot', 'fleeing'], ['gunshot', 'falling', 'fleeing']] 
-detective-api: Witness events prediction      : WITNESS_DECISION_MERGE_ALL_POSSIBLE 
-detective-api: Witness events predicted list  : [['fight', 'gunshot', 'falling', 'fleeing']]
-```
+## Contributing
+TO BE ADDED
 
-if further questions, please reach me at: hitesh.wadekar@ibm.com
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+TO BE ADDED 
+
+## Authors
+* **Hitesh Wadekar** - *Initial work* 
+if further questions, please reach me at: hitesh.wadekar@ibm.com or team northstar
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the Apache 2 License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
