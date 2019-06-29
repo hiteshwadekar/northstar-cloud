@@ -343,7 +343,9 @@ northstar-weather-service-3724735887-5tgjn   1/1       Running   0          1h
 
 ## Development Start
 
-All the end user mobile client API defined here,
+All the end user mobile client API defined in ``northstar.proto`` and using ``build_proto.sh`` 
+proto file can be build for python.
+
 
 ``` bash
 ~/git-repo-play/northstar-cloud/northstar_cloud/api/proto$ls -lrt
