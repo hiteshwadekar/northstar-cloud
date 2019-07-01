@@ -9,6 +9,11 @@ which includes analytics  to get the routes. This project further extending and 
 
 ## Getting Started
 
+## NorthStar Models
+
+![Screenshot](examples/NorthStarModel.png)
+
+
 ### Prerequisites
 Tools: Python, gRPC framework, MongoDB, Docker and Kubernetes.
 
