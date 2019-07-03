@@ -80,8 +80,14 @@ If a wildfire is detected using a user-uploaded image, the following logs will b
 
 TODO: insert logs showing a wildfire was detected using a user-uploaded image, and an alert was sent to be ready for an evacuation.
 
-Users within 10 miles of the path of the wildfire (determined through the wind direction) will be alerted to evacuate immediately, with safe coordinates to evacuate to. The safe coordinates are away from the fire and the direction of the wind. (The mobile app will show a navigation route to the safe coordinates.)
+Users within 10 miles of the path of the wildfire (determined through the wind direction) will be alerted to evacuate immediately, with safe coordinates to evacuate to. The safe coordinates are away from the fire and the direction of the wind. (The mobile app will show a navigation route to the safe coordinates.) 
 TODO: insert logs showing alert for users to evacuate since the wildfire is approaching their location.
+
+
+If the mobile app user has indicated that they need medical attention, the safe coordinates will be that of a hospital.
+TODO: insert logs showing alert for users with medical needs to evacuate to the hospital since the wildfire is approaching their location.
+
+
 
 --------------------
 
@@ -161,9 +167,10 @@ Insert User1:  This sample data represents the user of the mobile app. In additi
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: AddUser %s success: true
+```
 
-
-Insert User1
+Insert User2
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user2.json 
 2019-06-28 20:53:45,592 - __main__ - INFO - northstar-service-client: Request :user {
   user_name: "user2"
