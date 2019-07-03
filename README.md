@@ -1,4 +1,3 @@
-
 # Project NorthStar-Cloud
 
 A microservices for providing NorthStar cloud operations.
@@ -515,7 +514,7 @@ TO BE ADDED
 * **Anita Chung** - chunga@us.ibm.com
 * **Hitesh Wadekar** - hitesh.wadekar@ibm.com
 
-if further questions, please reach me at: hitesh.wadekar@ibm.com or team northstar
+For further questions, please reach me at: hitesh.wadekar@ibm.com or team Northstar
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -667,4 +666,3 @@ Future work for Geospatial Analytics integration:
 - Add functionality to register each mobile app user as a Watson IoT device of type `northstar`.
 
 - Add functionality for each mobile app user to simulate a Watson IoT device client which publishes its location information at short regular intervales to the MQTT topic `iot-2/type/northstar/id/_deviceid_/evt/location/fmt/json`
-
