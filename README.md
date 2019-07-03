@@ -1,10 +1,14 @@
 
 # Project NorthStar-Cloud
 
-A microservice for providing NorthStar cloud operations.
+A microservices for providing NorthStar cloud operations.
 
-NorthStar cloud is a Python, gRPC based distributed microservices, which provide APIs and alerting for mobile end services. Using IBM's analytics, weather services, cloud and visual recognition NorthStar to calculate safe location, fire prediction. The basic architecturre of NorthStar cloud inspired by Uber and Lyft model, 
-which includes analytics  to get the routes. This project further extending and allowing room to accomade novel communication system such as Project OWL and Project Lali.      
+NorthStar cloud is a set of gRPC-based distributed microservices (written in Python) that provide APIs and alerting for mobile end services. 
+Northstar cloud services determine high risk wildfire conditions, determine active wildfire location, alert nearby users to be ready for evacuation or to evacuate, 
+and provide safe coordinates for wildfire evacuation using IBM's analytics, weather, cloud and visual recognition services. 
+The basic architecture of the NorthStar cloud is inspired by the Uber and Lyft model, which includes analytics to get the routes. 
+This project is extensible and allows room to accommodate novel communication systems such as Project OWL (Call for Code 2018 winner), 
+and data input from Project Lali (Call for Code 2018) via live fire sensors      
 
 
 ## Getting Started
@@ -19,10 +23,8 @@ Tools: Python, gRPC framework, MongoDB, Docker and Kubernetes.
 
 First install some basic Python things.
 
-if linux,
-sudo apt install python python-dev python-pip
-sudo pip install -U tox
-
+if linux, `sudo apt install python python-dev python-pip sudo pip install -U tox`
+if mac, `brew install python`
 
 Please refer below links for development tools to install (Mac OS),
 
@@ -86,9 +88,25 @@ TODO: A sample call to the ML model with sample data.
 
 ```
 
-If the current weather conditions show a high probability of wildfire, the following logs are seen, and an alert sent to users within a 10 mile radius to be aware of high risk conditions, prepare for a possible evacuation, and not accidentally start a wildfire.
+If the current weather conditions show a high probability of wildfire, the following logs are seen, and an alert sent to users within a 10 mile radius to be aware of high risk conditions, 
+prepare for a possible evacuation, and not accidentally start a wildfire.
 
-TODO: insert logs showing high probability of wildfire given current weather conditions and alert sent to user.
+``` bash
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_ml_start.py
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/sklearn/externals/six.py:31: DeprecationWarning: The module is deprecated in version 0.21 and will be removed in version 0.23 since we've dropped support for Python 2.7. Please rely on the official version of six (https://pypi.org/project/six/).
+  "(https://pypi.org/project/six/).", DeprecationWarning)
+2019-07-02 19:10:58,685 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: checking weather fire patterns.
+2019-07-02 19:10:58,878 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - _predict_fire: calling IBM ML analytics service.
+2019-07-02 19:10:58,882 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_hourly_forecast for location lat: 37.32, lang: -122.03
+2019-07-02 19:10:58,882 - northstar_cloud.services.ibm_cloud_services.ibm_watson_ml_services - INFO - IBMWatsonMLAnalytics:predict_fire: IBM ML analytics request for user (6b1f8ddf-7863-4078-87c7-1d78851f1103, help.me)
+**_2019-07-02 19:10:58,883 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: -- PREDICTED HIGH PROBABILITY OF WILDFIRE -- (latitude 37.32, longitude -122.03) ->_** 
+2019-07-02 19:10:58,883 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: Using current weather data: {'time': 1518991200, 'summary': 'Clear', 'icon': 'clear-day', 'precipIntensity': 0, 'precipProbability': 0, 'temperature': 59.2, 'apparentTemperature': 59.2, 'dewPoint': -0.78, 'humidity': 0.09, 'pressure': 998.1, 'windSpeed': 10.74, 'windGust': 32.81, 'windBearing': 257, 'cloudCover': 0, 'uvIndex': 3, 'visibility': 9.997, 'latitude': '37.40208', 'longitude': '-118.50235', 'Date': '02/18/18', 'hour': 14, 'dayofyear': 49, 'monthofyear': 2}
+2019-07-02 19:10:58,883 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: Searching for users within 10 miles for notification.
+2019-07-02 19:10:58,886 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - _get_users_from_fire_range: User (help.me, 6b1f8ddf-7863-4078-87c7-1d78851f1103, 37.32, -122.03) is 0.0 miles away from fire at (37.32, -122.03)
+2019-07-02 19:10:58,886 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - _get_users_from_fire_range: User (user2, cf23163e-108c-4e11-8765-e63c6fea5773, 37.39, -122.08) is 5.557874861808834 miles away from fire at (37.32, -122.03)
+_**2019-07-02 19:10:58,887 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: ALERT USERS [('6b1f8ddf-7863-4078-87c7-1d78851f1103', 'help.me')] ABOUT HIGH PROBABILITY OF WILDFIRE NEAR (latitude 37.32, longitude -122.03)**_
+
+```
 
 
 ------------------------------
@@ -106,21 +124,54 @@ Run northstar cloud image visual recognition service. This service processes upl
 
 If a wildfire is detected using a user-uploaded image, the following logs will be seen, and an alert sent to users within a 10 mile radius that a wildfire is near them and to prepare for evacuation if needed.
 
-TODO: insert logs showing a wildfire was detected using a user-uploaded image, and an alert was sent to be ready for an evacuation.
+```bash
+2019-07-02 19:14:59,782 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-07-02 19:15:09,784 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+**_2019-07-02 19:15:09,788 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: - DETECTED FIRE USING IMAGE UPLOADED BY USER ---- @(latitude 37.32, longitude -122.03)_** 
+2019-07-02 19:15:09,788 - northstar_cloud.services.northstar_image_scanning_service - INFO - weather_ml_analytics_job: Searching for users within 10 miles for notification.
+
+```
 
 •	Customized alerts for evacuation to a safe location depending on current wind conditions: 
 
 Users within 10 miles of the path of the wildfire (determined through the wind direction) will be alerted to evacuate immediately, with safe coordinates to evacuate to. The safe coordinates are away from the fire and the direction of the wind. (The mobile app will show a navigation route to the safe coordinates.) 
 
-TODO: insert logs showing alert for users to evacuate since the wildfire is approaching their location.
+
+```bash
+2019-07-02 19:15:09,788 - northstar_cloud.services.northstar_image_scanning_service - INFO - weather_ml_analytics_job: Searching for users within 10 miles for notification.
+2019-07-02 19:15:09,794 - northstar_cloud.services.northstar_image_scanning_service - INFO - _get_users_from_fire_range: User (help.me, 6b1f8ddf-7863-4078-87c7-1d78851f1103, 37.32, -122.03) is 0.0 miles away from fire at (37.32, -122.03)
+2019-07-02 19:15:09,795 - northstar_cloud.services.northstar_image_scanning_service - INFO - _get_users_from_fire_range: User (user2, cf23163e-108c-4e11-8765-e63c6fea5773, 37.39, -122.08) is 5.557874861808834 miles away from fire at (37.32, -122.03)
+**_2019-07-02 19:15:09,795 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: ALERT USERS [('6b1f8ddf-7863-4078-87c7-1d78851f1103', 'help.me')] THAT THEY ARE NEAR WILDFIRE. GET READY FOR POSSIBLE EVACUATION. WILL ALERT WHEN EVACUATION NEEDED._**
+```
+
 
 •	Customized alerts for users with medical needs: 
 
 If the mobile app user has indicated that they need medical attention, the safe coordinates will be that of a hospital.
 
-TODO: insert logs showing alert for users with medical needs to evacuate to the hospital since the wildfire is approaching their location.
+```bash
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
+2019-07-02 19:14:29,711 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:14:29,770 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-07-02 19:14:39,772 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:14:39,773 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-07-02 19:14:49,775 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:14:49,777 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-07-02 19:14:59,781 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:14:59,782 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
+2019-07-02 19:15:09,784 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:15:09,788 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: - DETECTED FIRE USING IMAGE UPLOADED BY USER ---- @(latitude 37.32, longitude -122.03)
+2019-07-02 19:15:09,788 - northstar_cloud.services.northstar_image_scanning_service - INFO - weather_ml_analytics_job: Searching for users within 10 miles for notification.
+2019-07-02 19:15:09,794 - northstar_cloud.services.northstar_image_scanning_service - INFO - _get_users_from_fire_range: User (help.me, 6b1f8ddf-7863-4078-87c7-1d78851f1103, 37.32, -122.03) is 0.0 miles away from fire at (37.32, -122.03)
+2019-07-02 19:15:09,795 - northstar_cloud.services.northstar_image_scanning_service - INFO - _get_users_from_fire_range: User (user2, cf23163e-108c-4e11-8765-e63c6fea5773, 37.39, -122.08) is 5.557874861808834 miles away from fire at (37.32, -122.03)
+2019-07-02 19:15:09,795 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: ALERT USERS [('6b1f8ddf-7863-4078-87c7-1d78851f1103', 'help.me')] THAT THEY ARE NEAR WILDFIRE. GET READY FOR POSSIBLE EVACUATION. WILL ALERT WHEN EVACUATION NEEDED.
+2019-07-02 19:15:09,796 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_current_forecast for location lat: 37.32, lang: -122.03
+2019-07-02 19:15:10,046 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_current_forecast for location lat: 37.32, lang: -122.03
+_**_2019-07-02 19:15:10,131 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: ALERT USERS WITH MEDICAL NEED (6b1f8ddf-7863-4078-87c7-1d78851f1103 , help.me) TO EVACUATE IMMEDIATELY TO HOSPITAL [].WILDFIRE IS APPROACHING_**_
+2019-07-02 19:15:20,138 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+2019-07-02 19:15:20,140 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: No images found to scan..
 
-
+```
 
 
 --------------------
@@ -444,6 +495,10 @@ drwxr-xr-x  7 Hitesh.Wadekar@ibm.com  staff   224 Jun 28 19:06 ibm_cloud_service
 
 ## Built With
 TO BE ADDED
+
+
+## Keynote Presentation
+![](examples/CFC_Northstar.key)
 
 
 ## Contributing
