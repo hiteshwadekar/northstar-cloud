@@ -66,14 +66,17 @@ Run server in one terminal root of this repo (northstar-cloud) ,
 ```
 
 
-Run northstar cloud image visual recognition service,
+Run northstar cloud image visual recognition service. This service processes uploaded images of a reported wildfire, and uses IBM Visual Recognition Service to confirm the wildfire occurrence. The IBM Visual Recognition Service has been trained using images of wildfires and also smoky conditions, and images of fires which are not wildfires (as a negative class).
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
 2019-06-28 21:02:33,133 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
 
 ```
 
-Run northstar cloud user machine learning service,
+Run the northstar cloud user machine learning service. This service uses the hourly weather data and runs it against the trained Machine Learning model to infer if the current weather conditions show a high risk for wildfire occurrence at the location. For more information on the Machine Learning model and data, please see https://github.ibm.com/Rahul-Dalal/northstar.
+TODO: A sample call to the ML model with sample data.
+
+
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_ml_start.py 
 2019-06-28 21:04:13,636 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: checking weather fire patterns.
@@ -83,7 +86,9 @@ Run northstar cloud user machine learning service,
 ```
 
 
-To insert sample data through client, run in other terminal root of this repo (northstar-cloud),
+
+To insert sample data through client, run in other terminal root of this repo (northstar-cloud). 
+
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -h
 usage: northstart_user_services_client.py [-h]
@@ -107,9 +112,11 @@ optional arguments:
                         Path to user information json format file.
   -get_weather_json GET_WEATHER_JSON
                         Path to user information json format file.
+```
 
+Insert User1. This sample data represents the user of the mobile app. In addition to personal data such as name and contact information, the data provided to the backend also includes the user's location and whether or not he needs medical attention in case of a mandatory evacuation.
 
-Insert User1
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user1.json 
 2019-06-28 20:52:45,631 - __main__ - INFO - northstar-service-client: Request :user {
   user_name: "help.me"
@@ -162,9 +169,12 @@ Insert User1
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: AddUser %s success: true
+```
 
 
-Upload Image
+Upload Image. This call is used by the mobile app to upload the image of a wildfire, to report the wildfire occurrence. The northstar cloud image visual recognition service will use this image to determine if a wildfire has started at or spread to  the reported location.
+
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -upload_image_json examples/upload-image.json 
 2019-06-28 20:54:47,186 - __main__ - INFO - northstar-service-client: Request :image_name: "fire_burned.jpg"
 image_format: JPEG
@@ -178,8 +188,11 @@ user {
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: UploadFile resp -> %s success: true
+```
 
 
+We get the current weather for the location of the mobile app user using IBM Weather Company Data.
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -get_weather_json examples/weather-info.json 
 2019-06-28 20:56:07,968 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_current_forecast for location lat: 37.3229978, lang: -122.0321823
 
