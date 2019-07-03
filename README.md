@@ -497,8 +497,8 @@ drwxr-xr-x  7 Hitesh.Wadekar@ibm.com  staff   224 Jun 28 19:06 ibm_cloud_service
 TO BE ADDED
 
 
-## Keynote Presentation
-![](examples/CFC_Northstar.key)
+## Presentation
+[Keynote Presentation](examples/CFC_Northstar.key)
 
 
 ## Contributing
@@ -510,7 +510,12 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 TO BE ADDED 
 
 ## Authors
-* **Hitesh Wadekar** - *Initial work* 
+* **Daxit Agarwal** - Daxit.Agarwal@ibm.com 
+* **Rahul Dalal** - rahul.dalal@ibm.com
+* **Uzma Siddiqui** - usiddiqu@us.ibm.com
+* **Anita Chung** - chunga@us.ibm.com
+* **Hitesh Wadekar** - hitesh.wadekar@ibm.com
+
 if further questions, please reach me at: hitesh.wadekar@ibm.com or team northstar
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
