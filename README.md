@@ -58,6 +58,10 @@ To test everything OK, run tox (automation testing library).
 tox -epy36
 ```
 
+--------------------
+
+### Running services
+
 Run server in one terminal root of this repo (northstar-cloud) ,
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_services_start.py 
@@ -65,15 +69,15 @@ Run server in one terminal root of this repo (northstar-cloud) ,
 2019-06-28 20:50:24,221 - __main__ - INFO - northstar-cloud: is runnnig at localhost:50051
 ```
 
+--------------------
 
-Run northstar cloud image visual recognition service,
-``` shell
-~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
-2019-06-28 21:02:33,133 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
 
-```
+•	Alerts for high risk wildfire conditions: 
 
-Run northstar cloud user machine learning service,
+Run the northstar cloud user machine learning service. This service uses the hourly weather data and runs it against the trained Machine Learning model to infer if the current weather conditions show a high risk for wildfire occurrence at the location. For more information on the Machine Learning model and data, please see https://github.ibm.com/Rahul-Dalal/northstar.
+TODO: A sample call to the ML model with sample data.
+
+
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_user_ml_start.py 
 2019-06-28 21:04:13,636 - northstar_cloud.services.northstar_user_ml_analytics_service - INFO - weather_ml_analytics_job: checking weather fire patterns.
@@ -82,8 +86,49 @@ Run northstar cloud user machine learning service,
 
 ```
 
+If the current weather conditions show a high probability of wildfire, the following logs are seen, and an alert sent to users within a 10 mile radius to be aware of high risk conditions, prepare for a possible evacuation, and not accidentally start a wildfire.
 
-To insert sample data through client, run in other terminal root of this repo (northstar-cloud),
+TODO: insert logs showing high probability of wildfire given current weather conditions and alert sent to user.
+
+
+------------------------------
+
+•	Crowdsourced wildfire reporting: 
+
+Run northstar cloud image visual recognition service. This service processes uploaded images of a reported wildfire, and uses IBM Visual Recognition Service to confirm the wildfire occurrence. The IBM Visual Recognition Service has been trained using images of wildfires and also smoky conditions, and images of fires which are not wildfires (as a negative class).
+``` shell
+~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
+2019-06-28 21:02:33,133 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
+
+```
+
+•	Alerts for active nearby wildfire: 
+
+If a wildfire is detected using a user-uploaded image, the following logs will be seen, and an alert sent to users within a 10 mile radius that a wildfire is near them and to prepare for evacuation if needed.
+
+TODO: insert logs showing a wildfire was detected using a user-uploaded image, and an alert was sent to be ready for an evacuation.
+
+•	Customized alerts for evacuation to a safe location depending on current wind conditions: 
+
+Users within 10 miles of the path of the wildfire (determined through the wind direction) will be alerted to evacuate immediately, with safe coordinates to evacuate to. The safe coordinates are away from the fire and the direction of the wind. (The mobile app will show a navigation route to the safe coordinates.) 
+
+TODO: insert logs showing alert for users to evacuate since the wildfire is approaching their location.
+
+•	Customized alerts for users with medical needs: 
+
+If the mobile app user has indicated that they need medical attention, the safe coordinates will be that of a hospital.
+
+TODO: insert logs showing alert for users with medical needs to evacuate to the hospital since the wildfire is approaching their location.
+
+
+
+
+--------------------
+
+## Insert sample data
+
+To insert sample data through client, run in other terminal root of this repo (northstar-cloud). 
+
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -h
 usage: northstart_user_services_client.py [-h]
@@ -107,9 +152,15 @@ optional arguments:
                         Path to user information json format file.
   -get_weather_json GET_WEATHER_JSON
                         Path to user information json format file.
+```
 
+--------------------
 
-Insert User1
+•	Insert Users:  
+
+This sample data represents the user of the mobile app. In addition to personal data such as name and contact information, the data provided to the backend also includes the user's location and whether or not he needs medical attention in case of a mandatory evacuation.
+
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user1.json 
 2019-06-28 20:52:45,631 - __main__ - INFO - northstar-service-client: Request :user {
   user_name: "help.me"
@@ -134,9 +185,9 @@ Insert User1
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: AddUser %s success: true
+```
 
-
-Insert User1
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -create_user_json examples/create-user2.json 
 2019-06-28 20:53:45,592 - __main__ - INFO - northstar-service-client: Request :user {
   user_name: "user2"
@@ -162,9 +213,14 @@ Insert User1
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: AddUser %s success: true
+```
 
+--------------------
 
-Upload Image
+•	Upload Image: 
+This call is used by the mobile app to upload the image of a wildfire, to report the wildfire occurrence. This functionality enables crowdsourced wildfire reporting. The northstar cloud image visual recognition service will use this image to determine if a wildfire has started at or spread to the reported location.
+
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -upload_image_json examples/upload-image.json 
 2019-06-28 20:54:47,186 - __main__ - INFO - northstar-service-client: Request :image_name: "fire_burned.jpg"
 image_format: JPEG
@@ -178,8 +234,15 @@ user {
 
 NorthStar-Cloud: OUTPUT
 NorthStar-Cloud: UploadFile resp -> %s success: true
+```
+
+--------------------
+
+•	Get current weather: 
+We get the current weather for the wildfire location using IBM Weather Company Data. This data is used to determine the wind direction during an active wildfire to determine its spreading behavior. This information is used to alert users within a 10 mile radius of the wildfire in the path of the wind directiob to evacuate.
 
 
+```
 ~/git-repo-play/northstar-cloud$python northstar_cloud/clients/northstart_user_services_client.py -get_weather_json examples/weather-info.json 
 2019-06-28 20:56:07,968 - northstar_cloud.services.ibm_cloud_services.ibm_weather_services - INFO - IBMWeatherServices: get_current_forecast for location lat: 37.3229978, lang: -122.0321823
 
