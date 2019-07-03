@@ -535,6 +535,10 @@ This project is licensed under the Apache 2 License - see the [LICENSE.md](LICEN
 * Based on [Billie Thompson's README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
 
 
+
+---------------
+
+
 ## Optional
 
 The app also uses IBM Geospatial Analytics and Watson Internet of Things services to detect the app users entering or exiting active wildfire danger zones. 
