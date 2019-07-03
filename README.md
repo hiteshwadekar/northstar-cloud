@@ -22,6 +22,7 @@ Tools: Python, gRPC framework, MongoDB, Docker and Kubernetes.
 First install required Python packages.
 
 On Linux: `sudo apt install python python-dev python-pip sudo pip install -U tox`
+
 On Mac: `brew install python`
 
 Please refer below links for development tools to install (Mac OS),
