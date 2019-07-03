@@ -542,9 +542,18 @@ This project is licensed under the Apache 2 License - see the [LICENSE.md](LICEN
 
 The backend uses the IBM Watson Visual Recognition service which was trained using wildfire images (showing flames and smoke). The service was also trained using images of fires and flames which are not wildfires, as a negative class. 
 
+![TrainedModel](https://github.com/hiteshwadekar/northstar-cloud/blob/master/examples/northstar_VR.jpg)
+
+
+
 The images used to the train the model were sourced from pixabay.com.
 
 
+The following image is used to test the model and shows a classification score of .79 for a wildfire:
+![TestModel](https://github.com/hiteshwadekar/northstar-cloud/blob/master/examples/northstar_VR_test.jpg)
+
+
+---------------
 
 
 ## Appendix B
@@ -552,6 +561,8 @@ The images used to the train the model were sourced from pixabay.com.
 The app also uses IBM Geospatial Analytics and Watson Internet of Things services to detect the app users entering or exiting active wildfire danger zones. 
 
 - We created an instance of the Geospatial Analytics service on IBM Cloud.
+
+
 - In IBM Cloud, we created a Cloud Foundry app of type `Internet of Things Platform Starter` which created the node-red app (https://northstar-nodered.mybluemix.net/red/#flow/) and the corresponding Internet of Things service instance.
 - We used the MQTT server for the Watson IoT org, to  start the Geospatial Analytics service.
 
@@ -584,6 +595,11 @@ The configurations specify that the Geospatial Analytics service
 { "deviceInfo": { "id": "64", "location": { "latitude": 36.1356304, "longitude": -115.1502579 }, "originalMessage": "{\"ID\":64,\"lon\":-115.1502579,\"lat\":36.1356304,\"heading\":\"271.478\"}" }, "eventType": "Entry", "regionId": "Wildfire Zone Morgan Hill", "time": "13:19:21" } 
 ```
 
+Clicking on the Geospatial Analytics service in IBM Cloud shows it is started:
+![GSA](https://github.com/hiteshwadekar/northstar-cloud/blob/master/examples/northstar_GSA.jpg)
+
+
+
 The script also adds a sample wildfire danger zone by adding a circular region to the Geospatial service, which starts at the reported coordinates of the wildfire, and has a 10-mile radius. It also specifies to notify if a device exits or enters the region.
 ```
 Adding region to Geospatial
@@ -612,10 +628,12 @@ https://svc-cf.us-south.geospatial-analytics.cloud.ibm.com:443/jax-rs/geo/status
 
 - In the Watson IoT instance, we created a device type named `northstar`, and a sample device named `northstar1` of device type `northstar`. Each device represents a Northstar mobile app user.
 
+![GSA](https://github.com/hiteshwadekar/northstar-cloud/blob/master/examples/northstar_iotdevice.jpg)
+
 
 - We created a Watson IoT device client which simulates the IoT device client for the device `northstar1`. We use the `Python for IBM Watson IoT Platform` (https://github.com/ibm-watson-iot/iot-python) library for connecting to IBM Watson IoT using Python 3.x.
 
-You can  run the following script:
+You can run the following script:
 `python northstar_geospatial_device_client.py`
 
 The device client publishes its current coordinates to the MQTT topic `iot-2/type/northstar/id/northstar1/evt/location/fmt/json`.
@@ -639,30 +657,14 @@ It also publishes commands to `iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/jso
 You can open the Node-RED starter app at https://northstar-nodered.mybluemix.net/red/#flow/2b328ba4.5e07c4
 and see the debug window for the `Northstar` flow to view the device events and commands:
 
-```
-6/27/2019, 8:43:41 AMnode: device data
-iot-2/type/northstar/id/northstar1/evt/location/fmt/json : msg : Object
-object
-topic: "iot-2/type/northstar/id/northstar1/evt/location/fmt/json"
-payload: object
-deviceId: "northstar1"
-deviceType: "northstar"
-eventType: "location"
-format: "json"
-_msgid: "b3790c5f.3711c"
-6/27/2019, 8:43:45 AMnode: device command
-iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/json : msg.payload : Object
-object
-deviceInfo: object
-eventType: "Entry"
-regionId: "fireZone1"
-time: "13:19:21"
-```
+
+![GSA](https://github.com/hiteshwadekar/northstar-cloud/blob/master/examples/northstar_nodered.jpg)
+
 
 ---------------
 
 Future work for Geospatial Analytics integration:
-- Register the Northstar Cloud backend service as a Watson IoT App client which listens to incoming device commands on `iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/json` sent by the Geospatial Analytics service.  In response to incoming device commands, the backend will detect if a mobile app user has entered an active wildfire danger zone, and send it an alert to leave the zone, and specify safe coordinates for the user to navigate to.
+- Register the Northstar Cloud backend service as a Watson IoT App client which listens to incoming device commands on `iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/json` sent by the Geospatial Analytics service.  In response to incoming device commands, the backend will detect if a mobile app user has entered an active wildfire danger zone, and send the app user an alert to leave the zone, and specify safe coordinates for the user to navigate to.
 
 - Add functionality to register each mobile app user as a Watson IoT device of type `northstar`.
 
