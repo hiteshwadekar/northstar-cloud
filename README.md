@@ -172,6 +172,7 @@ _**_2019-07-02 19:15:10,131 - northstar_cloud.services.northstar_image_scanning_
 
 ```
 
+Refer to Appendix B for the use of Geospatial Analytics to detect when mobile app users enter a wildfire danger zone.
 
 --------------------
 
