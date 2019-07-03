@@ -629,7 +629,7 @@ It also publishes commands to `iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/jso
 ---------------
 
 You can open the Node-RED starter app at https://northstar-nodered.mybluemix.net/red/#flow/2b328ba4.5e07c4
-and see the debug window for the device events and commands:
+and see the debug window for the `Northstar` flow to view the device events and commands:
 
 ```
 6/27/2019, 8:43:41 AMnode: device data
