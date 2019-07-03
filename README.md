@@ -112,7 +112,7 @@ _**2019-07-02 19:10:58,887 - northstar_cloud.services.northstar_user_ml_analytic
 
 •	Run the northstar cloud image visual recognition service. This enables crowdsourced wildfire reporting.
 
-This service processes uploaded images of a reported wildfire, and uses IBM Visual Recognition Service to confirm the wildfire occurrence. The IBM Visual Recognition Service has been trained using images of wildfires and also smoky conditions, and images of fires which are not wildfires (as a negative class).
+This service processes uploaded images of a reported wildfire, and uses IBM Visual Recognition Service to confirm the wildfire occurrence. See Appendix A for details about the IBM Visual Recognition Service.
 ``` shell
 ~/git-repo-play/northstar-cloud$python northstar_cloud/cli/northstar_cloud_image_services_start.py 
 2019-06-28 21:02:33,133 - northstar_cloud.services.northstar_image_scanning_service - INFO - scan_recently_uploaded_images: Scanning images for detecting fire... 
@@ -538,8 +538,16 @@ This project is licensed under the Apache 2 License - see the [LICENSE.md](LICEN
 
 ---------------
 
+## Appendix A
 
-## Optional
+The backend uses the IBM Watson Visual Recognition service which was trained using wildfire images (showing flames and smoke). The service was also trained using images of fires and flames which are not wildfires, as a negative class. 
+
+The images used to the train the model were sourced from pixabay.com.
+
+
+
+
+## Appendix B
 
 The app also uses IBM Geospatial Analytics and Watson Internet of Things services to detect the app users entering or exiting active wildfire danger zones. 
 
