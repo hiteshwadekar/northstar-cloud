@@ -647,5 +647,12 @@ regionId: "fireZone1"
 time: "13:19:21"
 ```
 
+---------------
 
+Future work for Geospatial Analytics integration:
+- Register the Northstar Cloud backend service as a Watson IoT App client which listens to incoming device commands on `iot-2/type/api/id/geospatial/cmd/geoAlert/fmt/json` sent by the Geospatial Analytics service.  In response to incoming device commands, the backend will detect if a mobile app user has entered an active wildfire danger zone, and send it an alert to leave the zone, and specify safe coordinates for the user to navigate to.
+
+- Add functionality to register each mobile app user as a Watson IoT device of type `northstar`.
+
+- Add functionality for each mobile app user to simulate a Watson IoT device client which publishes its location information at short regular intervales to the MQTT topic `iot-2/type/northstar/id/_deviceid_/evt/location/fmt/json`
 
